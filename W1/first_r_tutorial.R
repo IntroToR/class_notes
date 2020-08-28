@@ -1,6 +1,7 @@
 #----------------------------------------------
 #   Scripts used in the first week of CPSC441
 #   Samuel Fernandes
+
 #   Last update - Aug 27, 2020
 #----------------------------------------------
 
