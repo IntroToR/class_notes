@@ -1,14 +1,10 @@
 # class_notes
-
-testing 2
-
-
-testiiiing 3 cpsc441
- 
- 
- 8-26 Test
- testing 
-
-testing 2+
 testing
-testing
+
+testing2
+
+testing 3
+
+testing 123 
+
+test4
