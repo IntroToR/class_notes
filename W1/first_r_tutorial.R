@@ -1,7 +1,7 @@
 #----------------------------------------------
 #   Scripts used in the first week of CPSC441
 #   Samuel Fernandes
-#   Aug 26, 2020
+#   Aug 28, 2020
 #----------------------------------------------
 
 #------- basic arithmetic operations -------
