@@ -17,4 +17,10 @@ Dylan Guenzburger -- Crop Sciences -- Crop Physiology
 Alex Armstrong -- Neuroscience -- Sensory Systems
 Winston Wong - Crop Science - Plant Biotechnology and Molecular Biology
 Shujie Wu - Agricultural & Consumer Economics - Commodity Markets and International Trade
+<<<<<<< HEAD
 Si Chen - Agricultural & Consumer Economics - Agribusiness markets and management
+=======
+Jameson Neff - Mathematics - Mathematics Education
+Suzanna Storms - Pathobiology - Infectious Disease
+Keith Ehnle - Crop Science - Crop Physiology
+>>>>>>> d026776bcf4d5f6809b92748dde7cdee2ad2f7e6
