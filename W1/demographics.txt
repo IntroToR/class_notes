@@ -25,3 +25,4 @@ Gemma Clark - Civil and Environmental Engineering - Environmental Engineering
 Leo D'Agostino - Crop Science - Plant Biotechnology
 Dylan Kerr - Crop Sciences - Weed Science
 Sarah Widener - Crop Sciences - Plant Breeding, Genetics
+Chengyou Shi - Chemical and Biomolecular Engineering - Microbial natural product discovery
