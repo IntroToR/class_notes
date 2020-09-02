@@ -1,0 +1,107 @@
+---
+title: "Homework 2"
+author: "Katherine Vande Pol"
+date: "9/2/2020"
+output: html_document
+---
+
+**Part a**
+
+Solving the system of equations via matrices:
+
+Enter the equations as matrices, with the coefficients of the variables as matrix a and the coefficents of the solutions as matrix b:
+```{r}
+a <- matrix(c(2,1,5,3),nrow = 2,ncol = 2)
+b <- matrix(c(33,19),nrow = 2,ncol = 1)
+```
+Solve the matrices:
+
+```{r}
+solve(a,b)
+```
+The value of x is 4 and the value of y is 5.
+
+Solving the system of equations "by hand"
+
+Separate one of the variables to one side of each equation
+
+2x = 33 - 5y
+x = 19 - 3y
+
+Divide by the multiplier of each separated variable
+
+x = 33/2 - (5/2)y
+x = 19 - 3y
+
+Subtract equation 2 from equation 1 and group like terms
+
+(33/2 - 19) + (3 - 5/2)y = 0
+
+```{r}
+(33/2) - 19
+3 - (5/2)
+```
+-2.5 + 0.5y = 0
+
+Move the variable to one side of the equation
+
+0.5y = 2.5
+
+Divide by the multiplier of the variable to solve
+
+```{r}
+2.5/0.5
+```
+y = 5
+
+Now input this value into one of the equations to solve for the other variable
+
+x + 3y = 19
+x + 3*5 = 19
+
+```{r}
+19 - 3*5
+```
+x = 4
+
+So, the solution to this system of equations is x = 4 and y = 5.
+
+
+**Part b**
+
+Create a vector that goes from 1 to 100
+```{r}
+x <- 1:100
+
+```
+
+Calculate the sum of the vector
+
+```{r}
+sum(x)
+```
+Calculate the number of terms in the vector
+```{r}
+length(x)
+```
+Divide the sum of the vector by the number of terms
+```{r}
+sum(x) / length(x)
+```
+The average of the vector is 50.5
+
+
+**Part 3**
+
+Creating a matrix with the given letters as the components, with 2 rows and 4 columns
+```{r}
+mat <- matrix(c("A","B","C","D","D","E","F","G"), ncol = 4, byrow = TRUE)
+mat
+```
+Asking the dplyr package to turn the matrix into a data frame
+```{r}
+dataframe <- as.data.frame(mat)
+dataframe
+```
+
+
