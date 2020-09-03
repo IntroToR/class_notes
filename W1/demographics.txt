@@ -40,4 +40,4 @@ Ece Gulkirpik - Food Science and Human Nutrition - Global Nutrition & Food Engin
 Kankanit Doungkamchan - Animal Sciences - Reproductive Physiology - Mac OS Catalina
 Beau Barber - Agricultural and Biological Engineering - Off-Road Equipment Engineering (Soil Measurement Systems)
 >>>>>>> 490b7d442d361a5ee4db9a9582af6b76e38beb98
-Asma'a Albakri-Nutritional Sciences-Molecular and biochemical nutrition
+Asma'a Albakri-Nutritional Sciences-Molecular  and biochemical nutrition
