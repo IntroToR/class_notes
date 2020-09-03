@@ -1,12 +1,41 @@
 Samuel B. Fernandes - Crop Science - Quantitative Genetics
-Eric Winans - Crop Sciences - Crop Physiology
-Rafael Gonzalez- Animal Sciences- Neuroimmunology
-Matthew Runyon - Crop Sciences - Plant Breeding, Genetics, and Cytogenetics
-Stephen Schwartz - Crop Sciences - Crop Physiology
+Eric Winans - Crop Sciences - Crop Physiology - Windows 10
+Rafael Gonzalez- Animal Sciences- Neuroimmunology-Mac-OS-X
+Matthew Runyon - Crop Sciences - Plant Breeding, Genetics, and Cytogenetics - Windows 10
+Stephen Schwartz - Crop Sciences - Crop Physiology - Windows 10
 Annabelle Shaffer - Division of Nutritional Sciences - Nutrition for chronic disease prevention
+<<<<<<< HEAD
 Hannah Demler - Plant Biology - plant responses to global change
 Grace Tan - Plant Biology - Photosynthetic Efficiency
 Katherine Vande Pol - Animal Science - Pork Production
 Mengyi Dong - Food Science and Human Nutrition - Food safety of fresh produce
 Ethan Lamons - Crop Sciences - Plant Biotechnology and Molecular Biology
 Steven Krauklis - Nutritional Science --Psychoneuroimmunology --Windows 10
+=======
+Hannah Demler - Plant Biology - plant responses to global change Windows 10
+Grace Tan - Plant Biology - Photosynthetic Efficiency - Mac OS X
+Katherine Vande Pol - Animal Science - Pork Production - Windows 10
+Mengyi Dong - Food Science and Human Nutrition - Food safety of fresh produce - MacOS Catalina 
+Ethan Lamons - Crop Sciences - Plant Biotechnology and Molecular Biology - Windows 10
+Steven Krauklis - Nutritional Science --Psychoneuroimmunology
+Andrea Dest - Division of Nutritional Sciences - Nutrition and Genetics - Mac OS
+Raina Monaghan -- Sustainability -- Water Quality
+Jadelyn Stewart - Animal Science - Pork Production
+Dylan Guenzburger -- Crop Sciences -- Crop Physiology
+Alex Armstrong -- Neuroscience -- Sensory Systems
+Winston Wong - Crop Science - Plant Biotechnology and Molecular Biology
+Shujie Wu - Agricultural & Consumer Economics - Commodity Markets and International Trade
+Si Chen - Agricultural & Consumer Economics - Agribusiness markets and management - Mac OS X
+Jameson Neff - Mathematics - Mathematics Education
+Suzanna Storms - Pathobiology - Infectious Disease
+Keith Ehnle - Crop Science - Crop Physiology
+Gemma Clark - Civil and Environmental Engineering - Environmental Engineering - Mac OS X
+Leo D'Agostino - Crop Science - Plant Biotechnology
+Dylan Kerr - Crop Sciences - Weed Science
+Sarah Widener - Crop Sciences - Plant Breeding, Genetics-Mac-OS-HS
+Chengyou Shi - Chemical and Biomolecular Engineering - Microbial natural product discovery
+Seda Ozer - Crop Sciences - Plant Breeding and Genetics
+Johana Coronel Laica - Food Science and Human Nutrition- Human Nutriton and Molecular Biology
+Ece Gulkirpik - Food Science and Human Nutrition - Global Nutrition & Food Engineering
+Kankanit Doungkamchan - Animal Sciences - Reproductive Physiology - Mac OS Catalina
+>>>>>>> 490b7d442d361a5ee4db9a9582af6b76e38beb98
