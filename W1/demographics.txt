@@ -9,7 +9,7 @@ Grace Tan - Plant Biology - Photosynthetic Efficiency - Mac OS X
 Katherine Vande Pol - Animal Science - Pork Production - Windows 10
 Mengyi Dong - Food Science and Human Nutrition - Food safety of fresh produce - MacOS Catalina 
 Ethan Lamons - Crop Sciences - Plant Biotechnology and Molecular Biology - Windows 10
-Steven Krauklis - Nutritional Science --Psychoneuroimmunology
+Steven Krauklis - Nutritional Science --Psychoneuroimmunology - Windows 10
 Andrea Dest - Division of Nutritional Sciences - Nutrition and Genetics - Mac OS
 Raina Monaghan -- Sustainability -- Water Quality -- Windows 10 
 Jadelyn Stewart - Animal Science - Pork Production - Windows 10
