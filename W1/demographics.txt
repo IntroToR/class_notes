@@ -4,14 +4,6 @@ Rafael Gonzalez- Animal Sciences- Neuroimmunology-Mac-OS-X
 Matthew Runyon - Crop Sciences - Plant Breeding, Genetics, and Cytogenetics - Windows 10
 Stephen Schwartz - Crop Sciences - Crop Physiology - Windows 10
 Annabelle Shaffer - Division of Nutritional Sciences - Nutrition for chronic disease prevention
-<<<<<<< HEAD
-Hannah Demler - Plant Biology - plant responses to global change
-Grace Tan - Plant Biology - Photosynthetic Efficiency
-Katherine Vande Pol - Animal Science - Pork Production
-Mengyi Dong - Food Science and Human Nutrition - Food safety of fresh produce
-Ethan Lamons - Crop Sciences - Plant Biotechnology and Molecular Biology
-Steven Krauklis - Nutritional Science --Psychoneuroimmunology --Windows 10
-=======
 Hannah Demler - Plant Biology - plant responses to global change Windows 10
 Grace Tan - Plant Biology - Photosynthetic Efficiency - Mac OS X
 Katherine Vande Pol - Animal Science - Pork Production - Windows 10
@@ -38,6 +30,6 @@ Seda Ozer - Crop Sciences - Plant Breeding and Genetics, Windows 10
 Johana Coronel Laica - Food Science and Human Nutrition- Human Nutriton and Molecular Biology
 Ece Gulkirpik - Food Science and Human Nutrition - Global Nutrition & Food Engineering
 Kankanit Doungkamchan - Animal Sciences - Reproductive Physiology - Mac OS Catalina
-Beau Barber - Agricultural and Biological Engineering - Off-Road Equipment Engineering (Soil Measurement Systems)
+Beau Barber - Agricultural and Biological Engineering - Off-Road Equipment Engineering (Soil Measurement Systems) - Windows 10
 Asma'a Albakri-Nutritional Sciences-Molecular  and biochemical nutrition
 Amadeo Salvador - Kinesiology Department - Nutrition and Exercise Research - Windows 10 - 
