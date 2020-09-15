@@ -1,0 +1,49 @@
+---
+title: "Hannah_Demler_HW4"
+author: "Hannah Demler"
+date: "9/15/2020"
+output: html_document
+---
+**1**  
+**Number of unique observations in the "GENO" variable**
+```{r}
+length(unique(pheno$GENO))
+```
+**2**  
+**Save subset of pheno data including only range 1 as text file**  
+```{r}
+pheno1<-pheno[pheno$range=='1',]
+write.table(pheno1,file = "pheno_subset.txt")
+```
+
+**3**  
+**The range of variables "Y", "M", and "h4"**  
+```{r}
+phenona<-na.omit(pheno)
+range(phenona$Y)
+range(phenona$M)
+range(phenona$h4)
+```
+**4**  
+**What row contains maximum vlaue of "h4"?**
+```{r}
+max(pheno$h4, na.rm=T)
+```
+
+**5**  
+**Create loop that prints mean of variables "Y", "M", "h1", "h2","h3", and "h4"**  
+```{r}
+pheno3<-pheno[,7:12]
+varmeans<-NULL
+for(i in names(pheno3)){varmeans[i]<-mean(pheno3[,i], na.rm=T)}
+varmeans
+```
+
+**6**  
+**Create dataset pheno2 and replace values of "Y" smaller than 2 with 0**
+```{r}
+pheno2<- pheno
+pheno2$Y[pheno2$Y<2]<-0
+pheno2
+```
+
