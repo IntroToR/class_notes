@@ -1,0 +1,91 @@
+---
+title: "Andrea_Dest"
+author: "andrea dest"
+date: "9/15/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+##open pheno.txt document
+dat<-read.csv("pheno.txt", header = TRUE, sep = " ")
+```
+
+__Quesiton 1__
+```{r}
+##find the number of unique observations in GENO
+##uniquevals <- unique(dat$GENO, incomparables = FALSE, fromLast = FALSE)
+uniquevals<-length(unique(dat$GENO))
+uniquevals
+```
+
+__Question 2__
+```{r}
+##save text file wtih a subset of  pheno data set containing only range 1
+#filter out all data with range = 1
+rangeof1 <- dat[dat$range=="1",]
+##save data to csv file
+write.csv(rangeof1, "datawithrangeof1.csv")
+```
+
+__Question 3__
+```{r}
+##range of Y”, “M”, and “h4” variables
+Yrange<-range(dat$Y, na.rm= TRUE)
+print(Yrange)
+Mrange<-range(dat$M, na.rm= TRUE)
+print(Mrange)
+h4range<-range(dat$h4, na.rm= TRUE)
+print(h4range)
+```
+
+__Quesiton 4__
+```{r}
+##find the row that contains the maximum value of “h4”
+maxofh4 <- max(dat$h4, na.rm = TRUE)
+##print max value in h4
+maxofh4
+```
+
+__Question 5__
+```{r}
+## create loop that prints the mean of the variables “Y”, “M”, “h1”, “h2”, “h3”, and “h4”
+dat2 <- dat[,7:12]
+for (i in names(dat2))
+{
+  meanofi<- mean(dat2[,i], na.rm = TRUE)
+  print(meanofi)
+}
+```
+
+__Question 6__
+```{r}
+##create dataset called pheno2
+##replace the values of “Y” (smaller than 2) to 0
+pheno2 <- dat
+pheno2$Y[pheno2$Y < 2] <- 0
+```
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

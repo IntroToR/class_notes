@@ -1,0 +1,93 @@
+---
+title: "Homework 4"
+output: html_document
+---
+
+#1
+```{r}
+length(GENO)
+GENO_Unique<- unique(GENO)
+length(GENO_Unique)
+```
+
+
+#3a
+```{r}
+attach(pheno)
+range(Y, na.rm=TRUE)
+```
+#3b
+```{r}
+attach(pheno)
+range(M, na.rm=TRUE)
+```
+#3c
+
+```{r}
+attach(pheno)
+range(h4, na.rm=TRUE)
+```
+#4
+
+```{r}
+attach(pheno)
+which.max(h4)
+```
+
+#5a
+
+```{r}
+attach(pheno)
+x<-mean(Y,na.rm = TRUE)
+while(x<4){print(x)}
+```
+
+#5b
+```{r}
+attach(pheno)
+x<-mean(M,na.rm = TRUE)
+while(x<4){print(x)}
+```
+
+#5c
+```{r}
+attach(pheno)
+x<-mean(h1,na.rm = TRUE)
+while(x<4){print(x)}
+```
+
+
+#5d
+```{r}
+attach(pheno)
+x<-mean(h2,na.rm = TRUE)
+while(x<4){print(x)}
+```
+
+
+
+#5e
+```{r}
+attach(pheno)
+x<-mean(h3,na.rm = TRUE)
+while(x<4){print(x)}
+```
+
+
+#5f
+```{r}
+attach(pheno)
+x<-mean(h4,na.rm = TRUE)
+while(x<4){print(x)}
+```
+
+
+
+#6
+```{r}
+attach(pheno)
+
+pheno2<-pheno
+pheno2$Y<-as.character(pheno2$Y)
+pheno2[pheno=="2"]<-"0"
+pheno2$Y<-as.factor(pheno2$Y)
