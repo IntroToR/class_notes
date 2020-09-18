@@ -5,23 +5,24 @@ date: "9/15/2020"
 output: html_document
 ---
 ```{r}
-## Obtain data file pheno.tzt.
+## Obtain data file pheno.txt.
 getwd()
 setwd("/Users/Mengyi/Box/CPSC441 R programming/class_notes/HW4")
 phenodata <- read.delim("pheno.txt", header = TRUE, sep = " ")
 names(phenodata)
-phenodata
 ```
+
 ```{r}
 ## 1) How many unique observations are there in the “GENO” variable?
 length(unique(phenodata$GENO))
 ```
 ```{r}
 ## 2) Save as a text file a subset of the pheno data set containing only range 1.
-sub_phenodata <- phenodata
-  if (phenodata$range == 1)
+sub_phenodata <- phenodata[phenodata$range == 1,]
 write.table(x=sub_phenodata, file="sub_phenodata.txt")
+sub_phenodata
 ```
+
 ```{r}
 ## 3) The range (minimum and maximum value) of the “Y”, “M”, and “h4” variables.
 range(phenodata$Y[!is.na(phenodata$Y)])
