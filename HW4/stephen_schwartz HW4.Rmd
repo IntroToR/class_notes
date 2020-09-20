@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 title: "stephen_Schwartz HW4"
 author: "Stephen Schwartz"
@@ -75,3 +76,81 @@ pheno2$Y[pheno2$Y <2] <-0
 pheno2
 ```
 
+=======
+---
+title: "stephen_Schwartz HW4"
+author: "Stephen Schwartz"
+date: "9/19/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#Set up data file
+phenotype<-read.table(file.choose("pheno.txt"), header=T)
+
+```
+
+##Question 1
+```{r}
+#How many unique observations are there in the "GENO" variable?
+Q1 <- length(unique(phenotype$GENO))
+Q1
+```
+##Question 2
+```{r}
+#Save as a text file a subset of the pheno data set containing only range 1
+phenotypesubr1 <- phenotype[phenotype$range ==1,]
+phenotypesubr1
+
+write.table(phenotypesubr1, file = "Q2_SubR1.txt")
+```
+
+##Question 3
+```{r}
+#The range of the "Y" "M" and "h4" variables
+RangeY <- range(phenotype$Y[!is.na(phenotype$Y)])
+RangeY
+
+RangeM <- range(phenotype$M[!is.na(phenotype$M)])
+RangeM
+
+Rangeh4 <- range(phenotype$h4[!is.na(phenotype$h4)])
+Rangeh4
+```
+
+##Question 4
+```{r}
+#What row ontains the maximum value of "h4"
+maxh4 <- phenotype$h4
+which.max((maxh4[!is.na(maxh4)]))
+```
+
+##Question 5
+```{r}
+#Create a loop that creates the mean of the variables "Y" "M" "h1" "h2" "h3" "h4"
+i <- 7:12 #The variable Y starts in column 7
+cleancolumns <- na.omit(phenotype[,i])
+cleancolumns
+
+j <-1
+repeat{
+  Q5 <- mean(cleancolumns[,j])
+  print(Q5)
+  j = 1+j
+  if (j > 6){break}
+}
+
+```
+
+##Question 6
+```{r}
+#Create a dataset called pheno2 and replace the values of "Y" that are smaller than 2 with 0
+pheno2 <- phenotype
+pheno2$Y[pheno2$Y <2] <-0
+pheno2
+```
+>>>>>>> 2c2f66b4e8ffada0678fa3d725242e0728fc1f61
