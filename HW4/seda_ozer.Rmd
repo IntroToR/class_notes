@@ -1,0 +1,74 @@
+---
+title: "homework4"
+author: "Seda Ozer"
+date: "9/20/2020"
+output: html_document
+---
+## Set your working directory and read in the data ##
+```{r}
+setwd("C:/Users/sedao2/Desktop/introduction to R programming/class_notes/HW4")
+the.data <- read.delim("pheno.txt")
+```
+str(the.data)
+
+#1
+```{r}
+help(unique)
+length(unique(the.data[,"GENO"]))
+```
+#2
+
+?subset
+```{r}
+range1data<-the.data[the.data$range=='1',]
+write.table(range1data,file = "the.data_subset.txt")
+range1data
+```
+#3
+```{r}
+range(the.data$Y[!is.na(the.data$Y)])
+range(the.data$M[!is.na(the.data$M)])
+range(the.data$h4[!is.na(the.data$h4)])
+```
+#4
+```{r}
+which.max(the.data$h4)
+```
+#5
+```{r}
+variables <- the.data[,c("Y","M","h1","h2", "h3", "h4")]
+meansofvariables<-NULL
+for(i in names(variables)){
+  meansofvariables[i]<-mean(variables[,i], na.rm=T)
+  print(meansofvariables)
+  }
+```
+#6
+```{r}
+pheno2 <- the.data
+pheno2$Y[the.data$Y <2] <-0
+pheno2
+```
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
