@@ -1,0 +1,57 @@
+---
+title: "HW4"
+author: "Eric Winans"
+date: "9/20/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+For homework 4, please pull the folder HW4 from the class_notesrepository on GitHub. It contains the pheno.txt* document to be used in this homework. From the pheno.txt file, obtain the following information:
+```{r}
+pheno <- read.table("pheno.txt", header = TRUE)
+```
+
+# 1) How many unique observations are there in the “GENO” variable? (You haven’t used this function in class yet. Try to look for functions.)
+```{r}
+(unique_geno_obs <- length(unique(pheno$GENO)))
+```
+
+# 2) Save as a text file a subset of the pheno data set containing only range 1.
+```{r}
+write.table(x = pheno[pheno$range == 1,], file = "pheno_range_1.text")
+```
+
+# 3) The range (minimum and maximum value) of the “Y”, “M”, and “h4” variables.
+```{r}
+(range_Y <- range(pheno$Y, na.rm = TRUE))
+(range_M <- range(pheno$M, na.rm = TRUE))
+(range_h4 <- range(pheno$h4, na.rm = TRUE))
+```
+
+# 4) What row contains the maximum value of “h4”?
+There are three observations that have the maximum value for "h4" of 5.100. Below I have identified the observations and what "row" in the field they belong to.
+```{r}
+(max_h4_obs <- which(pheno$h4 == max(pheno$h4, na.rm = TRUE)))
+(max_h4_row <- pheno[max_h4_obs,]$row)
+```
+
+# 5) Create a loop that prints the mean of the variables “Y”, “M”, “h1”, “h2”, “h3”, and “h4” (it must be done using a loop, e.g., for, while, or repeat).
+```{r}
+variables <-  pheno[,c("Y", "M", "h1", "h2", "h3", "h4")]
+variable_names <- variable.names(variables)
+means <- NULL
+for (i in variable_names) {
+  means[i] <- mean(variables[,i], na.rm = TRUE)
+}
+means
+```
+
+# 6) Create a dataset called pheno2 and replace the values of “Y” that are smaller than 2 by 0.
+```{r}
+pheno2 <- pheno
+pheno2$Y[pheno2$Y<2] <- 0
+```
+

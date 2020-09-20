@@ -1,0 +1,136 @@
+---
+title: "Homework 4"
+author: "Matthew Runyon"
+date: "9/16/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Before doing any of the problems, I first edited the original "pheno.txt" file to change "commercial hybrid" in column 3 to "commercial_hybrid". The space between these two words was causing issues in correctly reading the number of values in those rows. Using this edited file, I created the data set in R using the `read.table()` function with the header argument set to `TRUE`. This created the object `pheno`.
+
+```{r}
+pheno<-read.table("pheno.txt", header=T)
+```
+
+__Question 1: __ How many unique observations are there in the “GENO” variable? (You haven’t used this function in class yet. Try to look for functions.)
+
+To solve this question, I used the `unique()` function applied to the `GENO` column of my object `pheno`. This alone would give the names of each unique genotype, but since I am being asked for the number of names rather than the names themselves, I can apply the `length()` function to this set of names.
+
+```{r}
+Number_of_Unique_Genotypes<-length(unique(pheno$GENO))
+Number_of_Unique_Genotypes
+```
+
+__Question 2:__ Save as a text file a subset of the pheno data set containing only range 1.
+
+Here, we want only the rows where the range value in that row is equal to 1. To find these rows, I used an equality test (`==`) to identify those rows. The following R code can be read as, "The new object `pheno_range_1` contains the data from the object `pheno` where the value in the `range` column is equal to 1."
+
+```{r}
+pheno_range_1<-pheno[pheno$range=='1',]
+pheno_range_1
+```
+
+To save this as a text file, I used the `write.table()` function.
+
+```{r}
+write.table(pheno_range_1, file="pheno_range_1.txt")
+```
+
+__Question 3:__ The range (minimum and maximum value) of the “Y”, “M”, and “h4” variables.
+
+Here, we need to use the `range()` function for the four columns containing the values of these variables, but there are `NA` values that this function is incapable of processing. Therefore, I used the `na.omit()` function to remove these missing data values from each column individually before using the `range()` function.
+
+```{r}
+NA_omit_Y<-as.data.frame(na.omit(pheno$Y))
+NA_omit_M<-as.data.frame(na.omit(pheno$M))
+NA_omit_h4<-as.data.frame(na.omit(pheno$h4))
+range_Y<-range(NA_omit_Y)
+range_M<-range(NA_omit_M)
+range_h4<-range(NA_omit_h4)
+range_Y
+range_M
+range_h4
+```
+
+Note that we cannot simply apply the `na.omit()` function to the whole `pheno` data frame. In doing so, we remove all those rows containing missing data values, not just the rows with missing data in the four columns we are interested in. This can be observed with the following code:
+
+```{r}
+NA_omit_pheno<-na.omit(pheno)
+alt_range_Y<-range(NA_omit_pheno$Y)
+alt_range_M<-range(NA_omit_pheno$M)
+alt_range_h4<-range(NA_omit_pheno$h4)
+alt_range_Y
+alt_range_M
+alt_range_h4
+```
+
+By chance, everything works properly for calculating the range for `Y` and `M`, but we obtain a different minimum value for the `h4` variable. This is because the row containing the minimum value for `h4` of 1.204 was removed from the data set because it had missing values for the `Y` and `M` variables.
+
+__Question 4:__ What row contains the maximum value of “h4”?
+
+Here, I used the `max()` function to identify the largest value from the variable `h4` in the object `pheno`. Here again, due to missing data values, I used `na.rm=T` to remove these so the function would work properly.
+
+```{r}
+max_h4<-max(pheno$h4, na.rm=T)
+max_h4
+```
+
+Then, to identify which rows in the `pheno` object had this maximum value, I used an equality test in conjuction with the `which()` function; that is, I was seeing which rows had a `h4` variable value equal to the maximum value. I created the vector `max_value_file_rows` with this information.
+
+```{r}
+max_value_file_rows<-which(pheno$h4==max_h4)
+max_value_file_rows
+```
+
+However, this gives only the row number within the `pheno` object, not the actual variable `row`. To see the variable `row` for these three individuals, we can specify that with the following code to identify those positions within the `pheno` object. Again, `max_value_file_rows` is the rows in the object, and 5 is the column containing the `row` variable.
+
+```{r}
+field_rows<-pheno[max_value_file_rows,5]
+field_rows
+```
+
+__Question 5:__ Create a loop that prints the mean of the variables “Y”, “M”, “h1”, “h2”, “h3”, and “h4” (it must be done using a loop, e.g., for, while, or repeat).
+
+I chose to construct a `for` loop for this problem. First, I created an object called `pheno_data` containing only the columns of the six variables I am interested in for this problem. I then created an empty object `means` that will eventually contain the mean of each of these variables. Next, I created the object `variable`, which contains the names of the columns in `pheno_data`. Finally, I created a `for` loop to return the means of these variables. i is the number of iterations to which this loop will be applied; in this case, since there are 6 variables, that would mean 6 iterations. For each of these iterations (`means[i]`), I want to find the mean across all values of the data within that iteration (`mean(pheno_data[,i])`). Like before, there are missing data values, so we need the `na.rm` option set to `TRUE`. Now, the previously empty object of `means` returns the six mean values for the variables that we were interested in.
+
+```{r}
+pheno_data<-pheno[,7:12]
+means<-NULL
+variable<-names(pheno_data)
+for(i in variable){
+  means[i]<-mean(pheno_data[,i], na.rm=T)
+}
+means
+```
+
+To double check that my loop was working properly, I just ran the `mean()` funtion individually for each variable. Based on these results, I concluded that I consturcted my loop correctly.
+
+```{r}
+mean(pheno$Y, na.rm=T)
+mean(pheno$M, na.rm=T)
+mean(pheno$h1, na.rm=T)
+mean(pheno$h2, na.rm=T)
+mean(pheno$h3, na.rm=T)
+mean(pheno$h4, na.rm=T)
+```
+
+__Question 6:__ Create a dataset called pheno2 and replace the values of “Y” that are smaller than 2 by 0.
+
+I first created the new object `pheno2` using all the existing values from `pheno`. Then, specifying for the `Y` variable column where the value was less than 2 (the portion of code within brackets), I created a 0 in its place. However, I had to apply this new value of 0 only to the values in the `Y` variable column, hence that specification outside of the brackets.
+
+```{r}
+pheno2<-pheno
+pheno2$Y[pheno2$Y<2]<-0
+head(pheno2)
+```
+
+Because I couldn't double check my work easily to ensure that all values less than 2 had been replaced, I chose to create an additional object, `pheno3`, which ordered the data based on the variable `Y`, using the `order()` function. Using the `head()` function on `pheno3` shows that all values of `Y` that are less than 2 are now equal to 0.
+
+```{r}
+pheno3<-pheno2[order(pheno2$Y),]
+head(pheno3, n=20L) 
+```
+
