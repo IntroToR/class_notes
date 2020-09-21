@@ -1,0 +1,78 @@
+---
+title: "HWK Week 4"
+author: "Keith Ehnle"
+date: "9/20/2020"
+output: html_document
+---
+
+#1
+```{r}
+
+pheno.txt <-read.table(file.choose("pheno.txt"), header=TRUE)
+unique_var<-unique(pheno.txt$GENO)
+Number_unique <- length(unique_var)
+
+```
+
+#2
+```{r}
+
+One_range<-pheno.txt[pheno.txt$range ==1, ]
+File_one_range<-write.table(One_range, file="pheno.txt_in_a_range", sep="")
+
+```
+
+#3
+```{r}
+
+Y_range<- range(pheno.txt$Y, na.rm = TRUE)
+M_range<-range(pheno.txt$M, na.rm = TRUE)
+h4_range <-range(pheno.txt$h4, na.rm = TRUE)
+
+```
+
+#4
+```{r}
+
+Rows_of_max_values<-which(a$h4 == max(a$h4, na.rm = TRUE))
+
+```
+
+#5
+```{r}
+
+Y_h4<-pheno.txt[,7:12]
+col_means<- NULL
+for(i in names(Y_h4)){
+  col_means[i]<- mean(Y_h4[,i], na.rm =TRUE)
+}
+
+```
+
+#6
+```{r}
+
+pheno2<-pheno.txt
+pheno2$Y[pheno2$Y <2] <-0
+
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
