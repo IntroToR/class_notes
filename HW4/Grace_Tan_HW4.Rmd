@@ -1,0 +1,38 @@
+---
+title: "GraceTan_HW4"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Load in data
+
+```{r}
+library(readr)
+library(tidyverse)
+setwd("~/Documents/Grad School Yr 1/R/class_notes/HW4")
+
+colnames <- c("LOC","GENO","TAXA","range","row","BLOCK","Y","M","h1",	"h2",	"h3",	"h4")
+
+pheno_pre <- read.table("pheno.txt", col.names=colnames)
+pheno <- pheno_pre[-1, ]
+view(pheno)
+```
+
+1) How many unique observations are there in the “GENO” variable?
+
+```{r}
+view(pheno$GENO)
+```
+
+2) Save as a text file a subset of the pheno data set containing only range 1
+
+3) The range (minimum and maximum value) of the “Y”, “M”, and “h4” variables.
+
+4) What row contains the maximum value of “h4”?
+
+5) Create a loop that prints the mean of the variables “Y”, “M”, “h1”, “h2”, “h3”, and “h4” (it must be done using a loop, e.g., for, while, or repeat).
+
+6) Create a dataset called pheno2 and replace the values of “Y” that are smaller than 2 by 0.
