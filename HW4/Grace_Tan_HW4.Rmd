@@ -87,3 +87,19 @@ for(i in 1:6) {
 6) Create a dataset called pheno2 and replace the values of “Y” that are smaller than 2 by 0.
 
 ```{r}
+pheno2 <- pheno[ ,1:12]
+Y_num <- as.numeric(pheno2$Y)
+pheno2[ ,7] <- Y_num
+
+for(i in 1:1344) {
+  no_value <- is.na(pheno[i,"Y"])
+  if (no_value == TRUE) {
+    i <- i + 1
+  } else if(pheno2[i,"Y"] < 2) {
+    pheno2[i,"Y"] <- 0
+    print(i)
+  }
+  i <- i + 1
+}
+```
+Printed values show row number of "Y" values less than 2
