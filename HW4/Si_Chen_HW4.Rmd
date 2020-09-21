@@ -1,0 +1,49 @@
+---
+title: "Homework_4"
+author: "Si Chen"
+date: "9/20/2020"
+output: html_document
+---
+```{r}
+setwd("/Users/sichen/Desktop/class_notes/HW4")
+data1<- read.delim("pheno.txt",header = TRUE)
+```
+
+```{r}
+#1
+GENO_unique<- unique(data1$GENO,na.rm=TRUE)
+length(GENO_unique)
+```
+```{r}
+#2
+write.table(x = data1[data1$range == 1,], file = "data_range_1.txt")
+```
+
+```{r}
+#3
+(range_Y <- range(data1$Y, na.rm = TRUE))
+(range_M <- range(data1$M, na.rm = TRUE))
+(range_h4 <- range(data1$h4, na.rm = TRUE))
+```
+```{r}
+#4
+h4_max_rows<-which(data1$h4 == max(data1$h4, na.rm = TRUE))
+h4_max_rows
+```
+
+```{r}
+#5
+a<- data1[,c("Y", "M", "h1", "h2", "h3", "h4")]
+names<- variable.names(a)
+for (i in names) {
+    x<- mean(data1[,i],na.rm = TRUE)
+    print(x)
+}
+```
+
+```{r}
+#6
+pheno2<-data1
+pheno2$Y[pheno2$Y<2]<-0
+```
+
