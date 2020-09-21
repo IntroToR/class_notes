@@ -1,6 +1,7 @@
 ---
 title: "GraceTan_HW4"
 output: html_document
+date: Sept 20, 2020
 ---
 
 ```{r setup, include=FALSE}
@@ -37,6 +38,7 @@ write.table(range_1, file = "HW4_range_1.txt",
             row.names = FALSE,
             col.names = TRUE)
 ```
+File created locally but not submitted separately because question does not call for it
 
 3) The range (minimum and maximum value) of the “Y”, “M”, and “h4” variables.
 
@@ -102,4 +104,4 @@ for(i in 1:1344) {
   i <- i + 1
 }
 ```
-Printed values show row number of "Y" values less than 2
+Printed values show row number of "Y" values less than 2 that have been replaced with 0
