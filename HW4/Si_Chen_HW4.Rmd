@@ -27,10 +27,12 @@ write.table(x = data1[data1$range == 1,], file = "data_range_1.txt")
 ```
 ```{r}
 #4
-h4_max_rows<-which(data1$h4 == max(data1$h4, na.rm = TRUE))
+h4_max_rows_index<-which(data1$h4 == max(data1$h4, na.rm = TRUE))
+h4_max_rows_index
+h4_max_rows<-data1[h4_max_rows_index,"row"]
 h4_max_rows
 ```
-
+#427 444 576 are the indexes of rows containing max of h4, 9 3 3 are the actual values in rows containing max of h4 in the column "row"
 ```{r}
 #5
 a<- data1[,c("Y", "M", "h1", "h2", "h3", "h4")]
