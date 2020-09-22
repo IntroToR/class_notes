@@ -8,7 +8,9 @@ output: html_document
 #1
 ```{r}
 
-Rows_of_max_values<-which(a$h4 == max(a$h4, na.rm = TRUE))
+pheno.txt <-read.table(file.choose("pheno.txt"), header=TRUE)
+unique_var<-unique(pheno.txt$GENO)
+Number_unique <- length(unique_var)
 
 ```
 
