@@ -24,19 +24,7 @@ write.csv(range_1, file = "range_1.txt")
 ### The range of the "Y", "M" and "h4" variables.
 ```{r}
 data1[is.na(x=data1)] <- 0
-
-x <- data1$Y
-y <- data1$M
-z <- data1$h1
-
-find_multiple_ranges <- function(x, y, z) {
-  x <- range(x)
-  y <- range(y)
-  z <- range(z)
-  return(list(x, y, z))
-}
-
-find_multiple_ranges(x, y, z)  
+sapply(data1[,7:9], range)
 ```
 
 ### What row contains the maximum value of "h4"?
