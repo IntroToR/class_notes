@@ -1,0 +1,61 @@
+---
+title: "Ethan_Lamons.Rmd"
+author: "Ethan Lamons"
+date: "9/20/2020"
+output: html_document
+---
+
+# Part 1
+
+```{r}
+pheno <- read.delim("/Users/lamon/Desktop/CPSC441/class_notes/HW4/pheno.txt")
+unique_GENO <- (unique(pheno["GENO"]))
+NROW(unique_GENO)
+```
+
+# Part 2
+
+```{r}
+pheno_range <- pheno[pheno$range == '1',]
+write.table(pheno_range, file = "pheno_range_subset.txt")
+#checking if it worked
+read.table("pheno_range_subset.txt", header = TRUE)
+```
+
+# Part 3
+
+```{r}
+range_Y <- range(pheno$Y, na.rm = TRUE)
+range_Y
+range_M <- range(pheno$M, na.rm = TRUE)
+range_M
+range_h4 <- range(pheno$h4, na.rm = TRUE)
+range_h4
+```
+
+# Part 4
+
+```{r}
+h4_max <- max(pheno$h4, na.rm = TRUE)
+h4_max
+which(pheno$h4 == h4_max)
+```
+
+# Part 5
+
+```{r}
+pheno_mean_col <- pheno[,7:12]
+for (i in names(pheno_mean_col)) {
+  pheno_mean <- mean(pheno_mean_col[,i], na.rm = TRUE)
+  print(pheno_mean)
+}
+```
+
+# Part 6
+
+```{r}
+pheno2 <- pheno
+pheno2$Y[pheno2$Y < 2] <- 0
+pheno2
+```
+

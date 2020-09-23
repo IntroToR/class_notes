@@ -1,0 +1,75 @@
+---
+title: "HW4"
+author: "Winston Wong"
+date: "9/19/2020"
+output: html_document
+---
+pheno <- read.table("pheno.txt", header = TRUE)
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#1 How many unique observations are there in the “GENO” variable?
+```{r}
+Unique_Genotypes <- length(unique(pheno$GENO))
+Unique_Genotypes
+
+```
+
+#2 Save as a text file a subset of the pheno data set containing only range 1.
+```{r}
+Range1_Subset<- subset(pheno, range == 1)
+
+write.table(Range1_Subset, file = "Range1_Subset.txt", sep = "\t",row.names = TRUE)
+
+```
+
+#3 The range (minimum and maximum value) of the “Y”, “M”, and “h4” variables
+```{r}
+Y_range <- range(pheno$Y, na.rm = T)
+M_range <- range(pheno$M, na.rm = T)
+h4_range <- range(pheno$h4, na.rm = T)
+
+Y_range
+M_range
+h4_range
+```
+
+#4 What row contains the maximum value of “h4”?
+```{r}
+Max_h4 <- max(pheno$h4, na.rm = T)
+Max_h4
+is.numeric(Max_h4)
+
+which(pheno$h4==Max_h4)
+
+rowMax_h4 <- which(pheno$h4==Max_h4)
+rowMax_h4
+
+Variable_row_Max_h4 <- pheno[rowMax_h4, 5]
+Variable_row_Max_h4
+```
+
+#5 Create a loop that prints the mean of the variables “Y”, “M”, “h1”, “h2”, “h3”, and “h4” (it must be done using a loop, e.g., for, while, or repeat).
+
+```{r}
+
+ means_of_columns <- vector("numeric", ncol(pheno[,7:12]))
+    names(means_of_columns) <- names(pheno[,7:12])
+    for (i in names(pheno[,7:12])) {
+      means_of_columns[i] <- mean(pheno[[i]], na.rm = T)
+    }
+    means_of_columns
+
+```
+
+#6 Create a dataset called pheno2 and replace the values of “Y” that are smaller than 2 by 0
+```{r}
+pheno2 <- pheno
+pheno2$Y[pheno2$Y<2] <- 0
+pheno2
+
+length(which(pheno2$Y == 0))
+```
+

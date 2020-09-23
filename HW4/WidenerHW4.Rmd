@@ -1,0 +1,64 @@
+---
+title: "HW4_SarahWidener"
+author: "Widener"
+date: "9/20/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+library("tidyverse")
+callfile <- read.delim('~/HW4/HW4/pheno.txt')
+#str(callfile)
+```
+
+1) How many unique observations are there in the “GENO” variable? (You haven’t used this function in class yet. Try to look for functions.)
+```{r}
+length(unique(callfile$GENO))
+```
+
+2) Save as a text file a subset of the pheno data set containing only range 1.
+```{r}
+subset(callfile, callfile$range == 1)
+write.table(subset(callfile, callfile$range == 1), "Sarah")
+```
+
+3) The range (minimum and maximum value) of the “Y”, “M”, and “h4” variables.
+```{r}
+(range_Y <- range(callfile$Y, na.rm = TRUE))
+(range_M <- range(callfile$M, na.rm = TRUE))
+(range_h4 <- range(callfile$h4, na.rm = TRUE))
+```
+
+4) What row contains the maximum value of “h4”?
+```{r}
+maxvalueh4 <-which(callfile$h4 == max(callfile$h4, na.rm = TRUE))
+maxvalueh4
+maxvaluerow <- which(callfile$h4 == maxvalueh4)
+maxvaluerow
+exactrow <- callfile[maxvaluerow,5]
+exactrow
+```
+5) Create a loop that prints the mean of the variables “Y”, “M”, “h1”, “h2”, “h3”, and “h4” (it must be done using a loop, e.g., for, while, or repeat).
+```{r}
+abc <- callfile[,c("Y", "M", "h1", "h2","h3","h4")]
+names<- variable.names(abc)
+for (i in names) {
+    x<- mean(abc[,i],na.rm = TRUE)
+    print(x)
+}
+```
+6) Create a dataset called pheno2 and replace the values of “Y” that are smaller than 2 by 0.
+```{r}
+pheno2<-callfile
+pheno2$Y[pheno2$Y<2]<-0
+head(pheno2)
+```
+
+
+

@@ -1,0 +1,54 @@
+---
+title: "steven_krauklis HW4"
+author: "skrauklis"
+date: "9/20/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+pheno<-read.table("HW4/pheno.txt",sep="",header=T)
+```
+
+#1
+```{r}
+length(unique(pheno$GENO))
+```
+
+#2
+```{r}
+ps1<-pheno[pheno$range==1,]
+write.table(ps1,"C:/Users/krauk/Desktop/phenosub.txt")
+```
+
+#3
+```{r}
+v3<-match(c("Y","M","h4"),colnames(pheno))
+
+for(i in colnames(pheno[,v3])){
+  b<-range(pheno[,i],na.rm=T)
+  print(paste( "for", i, "min is", min(b),"max is", max(b)))}
+```
+
+#4
+```{r}
+which(pheno$h4==(max(pheno$h4,na.rm=T)))
+```
+
+#5
+```{r}
+#index which are columns of interest
+v5<-match(c("Y","M","h1","h2","h3","h4"),colnames(pheno))
+
+#now the loop
+for(i in colnames(pheno[,v5])){
+      a<-mean(pheno[,i],na.rm=T)
+    print(paste(i,"mean is", a))}
+```
+
+#6
+```{r}
+pheno2<-pheno
+sub2<-pheno2$Y<2
+pheno2$Y[sub2]<-0
+pheno2
+```

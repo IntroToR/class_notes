@@ -1,0 +1,52 @@
+---
+title: "CPSC 441 HW 4"
+author: "Raina Monaghan"
+date: "9/21/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### How many observations are there in the "GENO" variable?
+```{r}
+data1 <-read.table('C:/Users/raina/Documents/fall_2020/CPSC_411/class_notes/HW4/pheno.txt', header = TRUE, sep = "\t")
+
+unique(length(data1$GENO))
+```
+### Save as a text file a subset of the pheno data set containing only range 1.
+```{r}
+range_1 <- data1[ which(data1$range==1), ]
+write.csv(range_1, file = "range_1.txt")
+```
+
+### The range of the "Y", "M" and "h4" variables.
+```{r}
+data1[is.na(x=data1)] <- 0
+sapply(data1[,7:9], range)
+```
+
+### What row contains the maximum value of "h4"?
+```{r}
+which.max(data1$h4)
+```
+
+### Create a loop that prints the mean of the variables “Y”, “M”, “h1”, “h2”, “h3”, and “h4”
+```{r}
+sapply(data1, function(x){
+  if(is.numeric(x)){
+    mean(x, na.rm = TRUE)
+  } else{
+    NA
+  }
+})
+```
+
+### Create a dataset called pheno2 and replace the values of “Y” that are smaller than 2 by 0.
+```{r}
+pheno2 <- data.frame(data1)
+pheno2$Y[pheno2$Y < 2] <- 0
+```
+
+
