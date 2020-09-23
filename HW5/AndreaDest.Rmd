@@ -1,0 +1,52 @@
+---
+title: "Andrea Dest"
+author: "Andrea Dest"
+date: "9/22/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+__Question 1__
+```{r}
+#open tidyverse package
+library(tidyverse)
+#sort data by cyl number then by gear number
+mtcars <- arrange(mtcars, cyl, gear)
+```
+
+__Question 2__
+
+```{r}
+#create varible named model to include the car model names (row names)
+mtcars <- rownames_to_column(mtcars, var = "model")
+```
+
+
+__Question 3__
+```{r}
+#remove spacein model car name and reolace with "-"
+mtcars$model = gsub(" ","_",mtcars$model)
+```
+
+
+__Question 4__
+```{r}
+mpg_low <- filter(mtcars, mpg< 20)
+mpg_high <- filter(mtcars, mpg >= 20)
+```
+
+
+__Question 5__
+```{r}
+#edit mtcars data set using pipe operator
+  mtcars %>%
+  #arrange hp column
+  arrange(hp) %>%
+  # #remove all columns besides “cyl”, “hp”, " model“, and”gear“
+  select(model, cyl,hp,gear) %>%
+  #create new variable to equal the product of "cyl" and "gear" and add to data frame
+  mutate(product = cyl * gear)
+```
