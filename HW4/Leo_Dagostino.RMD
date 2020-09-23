@@ -1,0 +1,65 @@
+---
+title: "Leo_D'Agostino_HW4"
+author: "Leo D'Agostino"
+date: "9/18/2020"
+output: html_document
+---
+Question 1 
+```{r}
+pheno <- read.table("HW4/pheno.txt", header = TRUE)
+
+GENO_uniq <- unique(pheno$GENO)
+length(GENO_uniq)
+```
+
+Question 2 
+```{r}
+pheno1 <- pheno[pheno$range == 1,]
+write.table(pheno1, file = "subset_pheno.txt")
+subset_pheno
+```
+
+Question 3
+```{r}
+rangeY <- range(pheno$Y, na.rm = TRUE)
+rangeM <- range(pheno$M, na.rm = TRUE)
+rangeH4 <- range(pheno$h4, na.rm = TRUE)
+rangeY
+rangeM
+rangeH4
+```
+
+Question 4
+```{r}
+max_pheno <- which(pheno$h4 == max(pheno$h4, na.rm = TRUE))
+max_pheno1 <- pheno[max_pheno,5]
+max_pheno1
+```
+
+Question 5
+```{r}
+column_loop <- pheno[,7:12]
+
+for (i in names(column_loop)){
+  column_means <- mean(column_loop[,i], na.rm=T)
+  print(column_means)
+}
+
+```
+
+Question 6
+```{r}
+pheno2 <- pheno
+pheno2$Y[pheno2$Y<2]<-0
+pheno2
+```
+
+
+
+
+
+
+
+
+
+
