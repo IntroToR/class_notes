@@ -19,7 +19,10 @@ data2<-cbind(data,model)
 
 ```{r}
 #3
+#it said add model as a variable, not sure if in a vector or as a column of the data frame, so I made scripts to edit either
 model<-sub(" ","_",model)
+
+data2$model<-sub(" ","_",data2$model)
 ```
 
 ```{r}
@@ -30,7 +33,7 @@ mpg_high<-subset(data,data$mpg>=20)
 
 ```{r}
 #5
-data2 %>% 
+finaldata<-data2 %>% 
   arrange(hp) %>%
   select(cyl,hp,model,gear) %>%
   mutate(new_variable=cyl*gear)
