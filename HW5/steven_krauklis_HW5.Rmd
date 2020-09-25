@@ -1,0 +1,37 @@
+#only use once, preps packages
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+```{r}
+data<-mtcars
+
+#1
+data<-data[order(data$cyl,data$gear),]
+```
+
+```{r}
+#2
+model<-rownames(data)
+data2<-cbind(data,model)
+```
+
+```{r}
+#3
+model<-sub(" ","_",model)
+```
+
+```{r}
+#4
+mpg_low<-subset(data,data$mpg<20)
+mpg_high<-subset(data,data$mpg>=20)
+```
+
+```{r}
+#5
+data2 %>% 
+  arrange(hp) %>%
+  select(cyl,hp,model,gear) %>%
+  mutate(new_variable=cyl*gear)
+```
