@@ -1,0 +1,76 @@
+---
+title: "Jadelyn_Stewart"
+author: "Jadelyn Stewart"
+date: "9/23/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Read in the text file for the homework
+
+```{r}
+pheno_1 <- read.table(file.choose("pheno.txt"), header = T, sep = "")
+head(pheno_1)
+```
+
+##1) How many unique observations are there in the “GENO” variable? (You haven’t used this function in class yet. Try to look for functions.)
+
+```{r}
+uniq_value_1 <- length(unique(pheno_1$GENO))
+```
+
+##2) Save as a text file a subset of the pheno data set containing only range 1.
+```{r}
+pheno_2 <- pheno_1[pheno_1$range == 1,]
+pheno_2
+write.table(pheno_2, file = "pheno_2.txt")
+```
+##3) The range (minimum and maximum value) of the “Y”, “M”, and “h4” variables.
+
+Range for Y:
+```{r}
+range(pheno_1$Y, na.rm = T)
+```
+Y's min = 0.5250602 and max = 21.6188835
+
+
+Range for M:
+```{r}
+range(pheno_1$M, na.rm = T)
+```
+M's min = 0.4502466 and max = 0.8779443
+
+Range for h4:
+```{r}
+range(pheno_1$h4, na.rm = T)
+```
+h4's min = 1.204 and max = 5.100
+
+##4) What row contains the maximum value of “h4”?
+```{r}
+which.max(pheno_1$h4)
+```
+The 427th row contains the max for h4
+
+##5) Create a loop that prints the mean of the variables “Y”, “M”, “h1”, “h2”, “h3”, and “h4” (it must be done using a loop, e.g., for, while, or repeat).
+```{r}
+for (i in names(pheno_1[,7:12]))
+  print(mean(pheno_1[,i], na.rm = T))
+```
+The means are:
+Y: 7.99446
+M: 0.7431033
+h1: 0.2766773
+h2: 1.248048
+h3: 2.621128
+h4: 3.165503
+
+##6) Create a dataset called pheno2 and replace the values of “Y” that are smaller than 2 by 0.
+```{r}
+pheno2 <- pheno_1
+pheno2$Y[pheno2$Y < 2] <- 0
+pheno2
+```

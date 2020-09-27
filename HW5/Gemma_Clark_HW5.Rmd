@@ -1,0 +1,68 @@
+---
+title: "Gemma_Clark_HW5"
+author: "Gemma Clark"
+date: "Fall 2020"
+output: html_document
+---
+
+
+## Preparation
+```{r}
+install.packages('tidyverse')
+library(tidyverse)
+install.packages('dplyr')
+library(dplyr)
+data(mtcars)
+```
+
+
+## Problem 1
+```{r}
+cars = mtcars
+# orders cars dataset first by the cyl variable then by the gear variable in ascending order
+cars = arrange(cars,cyl,gear)
+```
+
+
+## Problem 2
+```{r}
+# sets a new variable, model, equal to the row names of the dataset
+model = row.names(cars)
+```
+
+
+## Problem 3
+```{r}
+for ( i in 1:length(model) ) {
+  # Checks if there is a space in the string
+  if (grepl(' ', model[i])) {
+    # Replaces space with an underscore
+    model[i] = sub(' ', '_', model[i])
+  }
+}
+
+```
+
+
+## Problem 4
+```{r}
+mpg_low = filter(cars, cars$mpg < 20)
+mpg_high = filter(cars, cars$mpg >= 20)
+```
+
+
+## Problem 5
+```{r}
+
+# Adds column with row names
+cars = mutate(cars, model = model)
+
+# Using pipe command so I don't have to keep typing "cars"
+result = cars %>%
+  # Sorts by hp
+  arrange(hp) %>%
+  # Removes columns other than cyl, hp, model, and gear
+  select(cyl, hp, model, gear) %>%
+  # adds new_variable that is multiplication of cyl and gear
+  mutate(new_variable = cyl*gear)
+```
