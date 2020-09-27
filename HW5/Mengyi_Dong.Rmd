@@ -1,0 +1,50 @@
+---
+title: "HW5_Mengyi Dong"
+author: "MengyiDong"
+date: "9/24/2020"
+output: html_document
+---
+
+```{r}
+## Load sample data "mtcars"
+library(tidyverse)
+mtcars1<-mtcars
+mtcars1
+```
+
+```{r}
+##1) Sort the dataset based on the variables “cyl” and “gear” (a single step, cyl is the first variable to be sorted and gear the second one).
+mtcars_sort <- arrange(mtcars1, cyl, gear)
+mtcars_sort
+```
+
+```{r}
+## 2) Create a variable called “model” with the names of the rows of this dataset.
+mutate (mtcars1, model = rownames(mtcars1))
+model
+```
+
+```{r}
+## 3) Replace the space of all the models by "_" (e.g., replace “Toyota Corona” by “Toyota_Corona”).
+mtcars1$model <- gsub(" ", "_", model)
+mtcars1
+```
+
+
+```{r}
+## 4) Create two datasets, one with mpg_low (by selecting cars with MPG less than 20) and mpg_high (by selecting cars with MGP greater than or equal 20)
+mpg_low <- filter(mtcars1,mpg < 20)
+mpg_low
+mpg_high <- filter(mtcars1, mpg >= 20)
+mpg_high
+```
+
+```{r}
+## 5) Using the pipe (%>%) command do all of these steps onto the mtcars dataset: sort by “hp”, remove all columns different than “cyl”, “hp”, " model“, and”gear“, create a new variable named”new_variable" that is the multiplication of “cyl” x “gear”.
+mtcars2 <- mtcars1 %>%
+  arrange(hp) %>%
+  select(cyl,hp,model,gear) %>%
+  mutate(new_variable = cyl * gear)
+mtcars2
+```
+
