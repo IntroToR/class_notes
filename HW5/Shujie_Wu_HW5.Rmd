@@ -1,0 +1,47 @@
+---
+title: "Shujie_Wu_HW5"
+author: "Shujie_Wu"
+date: "2020/9/26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1 
+```{r}
+library(tidyverse)  #load the package
+(data1<-arrange(mtcars, cyl, gear))  #sort the data by "cyl" and "gear"
+```
+
+## 2
+```{r}
+(data2<-mutate(data1, model= row.names(data1)))  #create the variable "model" with names of rows
+```
+
+## 3
+```{r}
+(row.names(data1)<-(gsub(" ","_",row.names(data1))))  #replace all the space with "_"
+(data3<-rownames_to_column(data1,var="model"))  #transform row names to be a variable
+```
+
+## 4
+```{r}
+(mpg_low<-filter(data3, mpg<20)) #subset data with mpg smaller than 20
+(mpg_high<-filter(data3, mpg>=20))  #subset data with mpg larger than 20
+```
+
+## 5
+```{r}
+(data3%>%
+  arrange(hp) %>% #sort by hp
+  select(model,hp,cyl,gear)%>%  #choose the four variables
+  mutate(new_variable=cyl*gear)  #add a variable of cyl*gear)
+)
+```
+
+
+
+
+
