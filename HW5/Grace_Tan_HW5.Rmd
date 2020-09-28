@@ -1,0 +1,93 @@
+---
+title: "Grace_Tan_HW5"
+date: "9/27/20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Using the R example data “mtcars”, do the following (when possible, try using the options available on the tidyverse package):
+
+```{r}
+library(tidyverse)
+library(readr)
+library(dplyr)
+```
+
+1) Sort the dataset based on the variables “cyl” and “gear” (a single step, cyl is the first variable to be sorted and gear the second one).
+
+Using the arrange() function from the dplyr package within tidyverse!
+
+```{r}
+view(mtcars)
+
+mtcars_ordered_cyl_gear <- arrange(mtcars, cyl, gear)
+mtcars_ordered_cyl_gear
+```
+
+
+2) Create a variable called “model” with the names of the rows of this dataset.
+
+```{r}
+model <- rownames(mtcars)
+model
+```
+
+
+3) Replace the space of all the models by "_" (e.g., replace “Toyota Corona” by “Toyota_Corona”).
+
+```{r}
+model_subbed <- gsub(" ", "_", model)
+model_subbed
+```
+
+4) Create two datasets, one with mpg_low (by selecting cars with MPG less than 20) and mpg_high (by selecting cars with MGP greater than or equal 20)
+
+This is not a necessary step, but I arranged the mtcars data by increasing mpg, and then manually calculated which rows were less than 20 mpg, and which rows were greater than or equal to 20. 
+
+```{r}
+mtcars_ordered_mpg <- arrange(mtcars, mpg)
+length(which(mtcars_ordered_mpg$mpg < 20))
+length(which(mtcars_ordered_mpg$mpg >= 20))
+```
+
+Now I know that the first 18 rows should be grouped as mpg_low, and the last 14 rows should be grouped as mpg_high.  I will use the filter() function from the dplyr package within tidyverse to subset the data into two datasets.
+
+
+```{r}
+mpg_low <- filter(mtcars_ordered_mpg, mpg < 20)
+mpg_low
+mpg_high <- filter(mtcars_ordered_mpg, mpg >= 20)
+mpg_high
+
+nrow(mpg_low) == 18
+nrow(mpg_high) == 14
+```
+
+
+5) Using the pipe (%>%) command do all of these steps onto the mtcars dataset: sort by “hp”, remove all columns different than “cyl”, “hp”, "model“, and "gear", create a new variable named "new_variable" that is the multiplication of “cyl” x “gear”.
+
+Model is not the name of a column under colnames(), so we must add it as the name of a column with the data created in question 3 using the add_column() function from dplyr.  I will also run all the functions individually to ensure they work before running them in a pipeline and viewing the final result, saved as mtcars_piped.
+
+```{r}
+mtcars_model <- add_column(mtcars, model_subbed, .before = "mpg")
+mtcars_model
+arrange(mtcars, hp)
+select(mtcars, cyl, hp, gear)
+mutate(mtcars, "new_variable" = cyl*gear)
+```
+
+Now that I have worked out which functions to use in the pipeline, and their proper arguments, I will construct my finals answer for question 5.
+
+```{r}
+mtcars_piped <- mtcars %>%
+  arrange(hp) %>%
+  add_column(model_subbed, .before = "mpg") %>%
+  select(model_subbed, cyl, hp, gear) %>%
+  mutate("new_variable" = cyl*gear)
+  
+mtcars_piped
+```
+
