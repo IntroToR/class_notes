@@ -1,0 +1,58 @@
+---
+title: "Leo_Dagostino"
+author: "Leo D'Agostino"
+date: "9/28/2020"
+output: html_document
+---
+
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+library(dplyr)
+data("mtcars")
+```
+
+Part 1
+```{r}
+mtcars1 <- arrange(mtcars, mtcars$cyl, mtcars$gear)
+mtcars1
+```
+
+Part 2
+```{r}
+model <- rownames(mtcars)
+mtcars <- rownames_to_column(mtcars, var = 'model')
+mtcars
+```
+
+Part 3
+```{r}
+model <- gsub(" ","_",model)
+row.names(mtcars) <- gsub(" ","_",rownames(mtcars))
+model
+mtcars
+```
+
+Part 4
+```{r}
+mtcars2 <- mtcars[mtcars$mpg < "20",]
+mtcars3 <- mtcars[mtcars$mpg > "20",]
+mtcars2
+mtcars3
+```
+
+Part 5
+```{r}
+mtcars[order(mtcars$hp),] %>%
+  select(cyl,hp,model,gear) %>%
+  mutate(new_variable = cyl * gear)
+```
+
+
+
+
+
+
+
+
+
