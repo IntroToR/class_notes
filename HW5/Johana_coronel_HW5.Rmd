@@ -1,0 +1,71 @@
+---
+title: "johana_coronel_hw5"
+author: "Johana Coronel"
+date: "9/28/2020"
+output: html_document
+---
+
+
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+install.packages('dplyr')
+library(dplyr)
+mtcars_arrange = mtcars
+mtcars_arrange
+```
+
+Question 1
+```{r}
+mtcars_arrange= arrange(mtcars, cyl, gear)
+mtcars_arrange
+
+```
+Question 2
+
+```{r}
+model= mutate(mtcars_arrange, rownames(mtcars_arrange))
+model
+```
+Question3 
+
+```{r}
+model= (gsub("", "_", model))
+model
+```
+
+Question 4 
+```{r}
+mp_low= filter(mtcars_arrange, mpg<20)
+mp_low
+mp_high= filter(mtcars_arrange, mpg >=20)
+mp_high
+```
+
+Question 5 
+```{r}
+mtcars_arrange1= mtcars_arrange %>%
+  arrange(hp)%>%
+  select( cyl, hp, model, gear) %>%
+  mutate(new_variable =cyl*gear)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
