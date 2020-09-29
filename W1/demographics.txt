@@ -1,31 +1,35 @@
 Samuel B. Fernandes - Crop Science - Quantitative Genetics
-Eric Winans - Crop Sciences - Crop Physiology
+Eric Winans - Crop Sciences - Crop Physiology - Windows 10
 Rafael Gonzalez- Animal Sciences- Neuroimmunology-Mac-OS-X
 Matthew Runyon - Crop Sciences - Plant Breeding, Genetics, and Cytogenetics - Windows 10
 Stephen Schwartz - Crop Sciences - Crop Physiology - Windows 10
 Annabelle Shaffer - Division of Nutritional Sciences - Nutrition for chronic disease prevention
-Hannah Demler - Plant Biology - plant responses to global change
+Hannah Demler - Plant Biology - plant responses to global change Windows 10
 Grace Tan - Plant Biology - Photosynthetic Efficiency - Mac OS X
 Katherine Vande Pol - Animal Science - Pork Production - Windows 10
 Mengyi Dong - Food Science and Human Nutrition - Food safety of fresh produce - MacOS Catalina 
 Ethan Lamons - Crop Sciences - Plant Biotechnology and Molecular Biology - Windows 10
-Steven Krauklis - Nutritional Science --Psychoneuroimmunology
+Steven Krauklis - Nutritional Science --Psychoneuroimmunology - Windows 10
 Andrea Dest - Division of Nutritional Sciences - Nutrition and Genetics - Mac OS
-Raina Monaghan -- Sustainability -- Water Quality
-Jadelyn Stewart - Animal Science - Pork Production
-Dylan Guenzburger -- Crop Sciences -- Crop Physiology
-Alex Armstrong -- Neuroscience -- Sensory Systems
-Winston Wong - Crop Science - Plant Biotechnology and Molecular Biology
-Shujie Wu - Agricultural & Consumer Economics - Commodity Markets and International Trade
-Si Chen - Agricultural & Consumer Economics - Agribusiness markets and management
+Raina Monaghan -- Sustainability -- Water Quality -- Windows 10 
+Jadelyn Stewart - Animal Science - Pork Production - Windows 10
+Dylan Guenzburger -- Crop Sciences -- Crop Physiology -- Windows 10
+Alex Armstrong -- Neuroscience -- Sensory Systems -- Windows 10
+Winston Wong - Crop Science - Plant Biotechnology and Molecular Biology - Windows 10
+Shujie Wu - Agricultural & Consumer Economics - Commodity Markets and International Trade - Windows 10
+Si Chen - Agricultural & Consumer Economics - Agribusiness markets and management - Mac OS X
 Jameson Neff - Mathematics - Mathematics Education
-Suzanna Storms - Pathobiology - Infectious Disease
-Keith Ehnle - Crop Science - Crop Physiology
-Gemma Clark - Civil and Environmental Engineering - Environmental Engineering
+Suzanna Storms - Pathobiology - Infectious Disease -Mac OS X
+Keith Ehnle - Crop Science - Crop Physiology - Windows 10
+Gemma Clark - Civil and Environmental Engineering - Environmental Engineering - Mac OS X
 Leo D'Agostino - Crop Science - Plant Biotechnology
-Dylan Kerr - Crop Sciences - Weed Science
-Sarah Widener - Crop Sciences - Plant Breeding, Genetics
+Dylan Kerr - Crop Sciences - Weed Science - Windows 10
+Sarah Widener - Crop Sciences - Plant Breeding, Genetics-Mac-OS-HS
 Chengyou Shi - Chemical and Biomolecular Engineering - Microbial natural product discovery
-Seda Ozer - Crop Sciences - Plant Breeding and Genetics
-Johana Coronel Laica - Food Science and Human Nutrition- Human Nutriton and Molecular Biology
-Ece Gulkirpik - Food Science and Human Nutrition - Global Nutrition & Food Engineering
+Seda Ozer - Crop Sciences - Plant Breeding and Genetics, Windows 10
+Johana Coronel Laica - Food Science and Human Nutrition- Human Nutrition and Molecular Biology-Windows 10
+Ece Gulkirpik - Food Science and Human Nutrition - Global Nutrition & Food Engineering- Windows 10
+Kankanit Doungkamchan - Animal Sciences - Reproductive Physiology - Mac OS Catalina
+Beau Barber - Agricultural and Biological Engineering - Off-Road Equipment Engineering (Soil Measurement Systems) - Windows 10
+Asma'a Albakri-Nutritional Sciences-Molecular  and biochemical nutrition
+Amadeo Salvador - Kinesiology Department - Nutrition and Exercise Research - Windows 10 - 

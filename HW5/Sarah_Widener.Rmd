@@ -1,0 +1,49 @@
+---
+title: "Sarah_Widener_HW5.Rmd"
+author: "Widener"
+date: "9/27/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Using the R example data “mtcars”, do the following (when possible, try using the options available on the tidyverse package):
+#1) Sort the dataset based on the variables “cyl” and “gear” (a single step, cyl is the first variable to be sorted and gear the second one).
+
+```r
+data(mtcars)
+str(mtcars)
+library(tidyverse)
+sortedmtcars <- arrange(mtcars, cyl, gear)
+```
+
+# 2) Create a variable called “model” with the names of the rows of this dataset.
+
+```r
+mtcars_model <- rownames_to_column (sortedmtcars, var = "model")
+```
+
+# 3) Replace the space of all the models by "_" (e.g., replace “Toyota Corona” by “Toyota_Corona”).
+
+```r
+mtcars_model = gsub(" ","_",mtcars_model)
+```
+
+# 4) Create two datasets, one with mpg_low (by selecting cars with MPG less than 20) and mpg_high (by selecting cars with MGP greater than or equal 20)
+
+```r
+mmg_low <- filter(mtcars, mpg< 20)
+mpg_high <- filter(mtcars, mpg >= 20)
+```
+
+# 5) Using the pipe (%>%) command do all of these steps onto the mtcars dataset: sort by “hp”, remove all columns different than “cyl”, “hp”, " model“, and”gear“, create a new variable named”new_variable" that is the multiplication of “cyl” x “gear”.
+
+```r
+  mtcars %>%
+  arrange(hp) %>% 
+  select(cyl, hp, mtcars_model, gear) %>% 
+  mutate(new_variable = cyl * gear)
+```
+

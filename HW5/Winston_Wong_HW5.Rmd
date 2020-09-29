@@ -1,0 +1,53 @@
+---
+title: "Winston_Wong_HW5.rmd"
+author: "Winston Wong"
+date: "9/28/2020"
+output: html_document
+---
+```{r}
+data(mtcars)
+library(dplyr)
+```
+
+#1 Sort the dataset based on the variables “cyl” and “gear” (a single step, cyl is the first variable to be sorted and gear the second one).
+```{r}
+ordered <- arrange(mtcars, cyl, gear)
+ordered
+```
+
+#2) Create a variable called “model” with the names of the rows of this dataset.
+```{r}
+mutant_mtcars <- mutate(mtcars, model = row.names(mtcars))
+mutant_mtcars
+```
+
+#3 Replace the space of all the models by "_" (e.g., replace “Toyota Corona” by “Toyota_Corona”).
+```{r}
+mutant_mtcars$model <- gsub(" ", "_", mutant_mtcars$model)
+```
+
+#4 Create two datasets, one with mpg_low (by selecting cars with MPG less than 20) and mpg_high (by selecting cars with MGP greater than or equal 20)
+```{r}
+mpg_low <- subset(mutant_mtcars, mpg < 20,
+select=everything(mutant_mtcars))
+mpg_low
+
+mpg_high <- subset(mutant_mtcars, mpg >= 20,
+select=everything(mutant_mtcars))
+mpg_high
+```
+
+#5 Using the pipe (%>%) command do all of these steps onto the mtcars dataset: sort by “hp”, remove all columns different than “cyl”, “hp”, " model“, and”gear“, create a new variable named”new_variable" that is the multiplication of “cyl” x “gear”.
+```{r}
+#sort by "hp"
+sort_by_hp <- mtcars %>% arrange(hp)
+
+# remove columns other than “cyl”, “hp”, " model“, and”gear“
+remove_columns_different_than <- mutant_mtcars %>% within(rm(mpg, disp, drat, qsec, vs, am, carb))
+
+# Create a new variable named”new_variable" that is the multiplication of “cyl” x “gear”.
+mutant2_mtcars <- mutant_mtcars %>% mutate(new_variable = cyl*gear)
+mutant2_mtcars
+```
+
+``

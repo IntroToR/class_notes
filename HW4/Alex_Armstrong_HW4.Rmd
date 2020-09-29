@@ -1,0 +1,83 @@
+---
+title: "alex_armstrong"
+output: html_document
+---
+```{r}
+# QUESTION 1 - 
+
+pheno_data <- read.table("HW4/pheno.txt",header=T, sep ="")
+
+unique_values <- length(unique(pheno_data$GENO))
+```
+
+```{r}
+# QUESTION 2 - 
+
+pheno_subset <- pheno_data[pheno_data$range == 1,]
+
+write.table(pheno_subset, file="pheno_subset.txt")
+```
+
+```{r}
+# QUESTION 3 -
+
+range_of_Y <- range(pheno_data$Y, na.rm=T)
+print(range_of_Y)
+
+range_of_M <- range(pheno_data$M, na.rm=T)
+print(range_of_M)
+
+range_of_h4 <- range(pheno_data$h4, na.rm=T)
+print(range_of_h4)
+```
+
+```{r}
+# QUESTION 4 - 
+
+h4_max_row <- which(pheno_data$h4 == max(pheno_data$h4, na.rm=T))
+print(h4_max_row)
+```
+```{r}
+# QUESTION 5 -
+
+# get columns to use
+loop_columns <- pheno_data[,7:12]
+
+for (i in names(loop_columns)){
+  column_mean <- mean(loop_columns[,i], na.rm=T)
+  print(column_mean)
+}
+  
+  
+```
+```{r}
+# QUESTION 6 - 
+pheno2 <- pheno_data
+pheno2$Y[pheno2$Y<2] <- 0
+ 
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

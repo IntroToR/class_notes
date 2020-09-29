@@ -1,0 +1,71 @@
+---
+title: "bdbarbe2_HW5"
+author: "Beau Barber"
+date: "9/27/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Using the R example data “mtcars”, do the following (when possible, try using the options available on the tidyverse package):
+
+### Install packages and extract data
+```{r}
+install.packages('tidyverse','dplyr')
+library(tidyverse)
+library(dplyr)
+data(mtcars)
+```
+
+___1) Sort the dataset based on the variables “cyl” and “gear” (a single step, cyl is the first variable to be sorted and gear the second one).___
+
+```{r}
+#Order dataset by "cyl" and "gear"
+mtcars_sorted=arrange(mtcars,mtcars$cyl,mtcars$gear)
+
+print(mtcars_sorted)
+```
+
+
+
+___2) Create a variable called “model” with the names of the rows of this dataset.___
+
+```{r}
+model=rownames(mtcars)
+```
+
+
+___3) Replace the space of all the models by "_" (e.g., replace “Toyota Corona” by “Toyota_Corona”).___
+
+```{r}
+model <- gsub(" ","_",model)
+print(model)
+```
+
+
+___4) Create two datasets, one with mpg_low (by selecting cars with MPG less than 20) and mpg_high (by selecting cars with MGP greater than or equal 20)___
+
+
+```{r}
+mpg_low <- filter(mtcars_sorted,mpg<20)
+print(mpg_low)
+mpg_high <- filter(mtcars_sorted,mpg>=20)
+print(mpg_high)
+
+```
+
+
+
+___5) Using the pipe (%>%) command do all of these steps onto the mtcars dataset: sort by “hp”, remove all columns different than “cyl”, “hp”, " model“, and”gear“, create a new variable named”new_variable" that is the multiplication of “cyl” x “gear”.___
+
+
+```{r}
+mtcars_sorted = mutate(mtcars_sorted, model=model) #Had to add this line because otherwise it says the model subset (based on the new variable) doesn't exist. Likely because it is referencing the variable we created instead of the column name in mtcars_sorted
+mtcars_2 <- arrange(mtcars_sorted, mtcars_sorted$hp) %>%
+   select(cyl, hp, model, gear) %>% 
+  mutate(new_variable = cyl*gear) 
+```
+So I realized after watching the video again, apparently in PIPES method you don't need to include the dataframe argument in most of the functions which like is cool I guess but that seems like witchcraft and I don't like it.
+

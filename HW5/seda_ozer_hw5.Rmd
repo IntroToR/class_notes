@@ -1,0 +1,41 @@
+---
+title: "hw5"
+author: "Seda Ozer"
+date: "9/27/2020"
+output: html_document
+---
+#1
+install.packages('tidyverse')  
+install.packages('dplyr')
+library(tidyverse)
+library(dplyr)
+```{r}
+data(mtcars)
+help(sort)
+sorteddata <- mtcars[order(mtcars$cyl, mtcars$gear),]
+```
+#2
+```{r}
+datawithmodelcolumn <-mutate(sorteddata, model= rownames(sorteddata))
+```
+#3
+replace space with "_"
+```{r}
+gsub("\\s", "_", datawithmodelcolumn$model)
+```
+#4
+```{r}
+mpg_low <- filter(datawithmodelcolumn, mpg<20)
+mpg_high <- filter(datawithmodelcolumn, mpg>=20)
+```
+#5
+```{r}
+final <- datawithmodelcolumn %>%
+  arrange(hp) %>%
+  select(cyl, hp, model, gear) %>%
+  mutate(new_variable = cyl*gear)
+```
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+

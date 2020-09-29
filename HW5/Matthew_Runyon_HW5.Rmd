@@ -1,0 +1,72 @@
+---
+title: "Homework 5"
+author: "Matthew Runyon"
+date: "9/22/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+__Question 1:__ Sort the dataset based on the variables "cyl" and "gear" (a single step, cyl is the first variable to be sorted and gear is the second one).
+
+After loading the `mtcars` dataset, I used the `order()` function to sort the dataset based on the two variables `cyl` and `gear`. I specified these by using the `$`, and since the function orders the variables in the order they are input, I listed `cyl` before `gear`. I named this new ordered dataset `mtcars_ordered`.
+
+```{r}
+data(mtcars)
+mtcars_ordered<-mtcars[order(mtcars$cyl, mtcars$gear),]
+mtcars_ordered
+```
+
+__Question 2:__ Create a variable called "model" with the names of the rows of this dataset.
+
+I used the `rownames_to_columns()` function here, which comes out of the `tibble` package included in `tidyverse`. I specified the name of the column created as `"model"` using the `var` argument, and the data argument was filled using the `mtcars` data set.
+
+```{r}
+mtcars_added_models<-rownames_to_column(mtcars, var="model")
+mtcars_added_models
+```
+
+An alternative method to the `rownames_to_columns()` function could have been to create a vector containing all the row names using the `row.names()`function, then binding this to the data frame using the `cbind()` function.
+
+__Question 3:__ Replace the space of all models by "_" (e.g., replace "Toyota Corona" by Toyota_Corona").
+
+Since the row names are character values, we can use the `gsub()` function to replace multiple instances of a single value (in this case, replacing a space with an underscore). To do this, we can set row names of `mtcars` using the `row.names()<-` function and assignment. That assignment contains the actual `gsub()` function, with the pattern argument (what is to be replaced) set as `" "`, the replacement argument (what the pattern is to be replaced with) set to `"_"`, and the data argument set as the data we are working with (the row names of `mtcars`). If we just run this (contained in the first line of code in the chunk below), it will just alter the row names of the original `mtcars`. However, we can convert this to a column like we did above in the second question using the `rownames_to_column()` function, with arguments the same as before.
+
+```{r}
+row.names(mtcars)<-(gsub(" ","_",row.names(mtcars)))
+mtcars
+mtcars_added_models_no_space<-rownames_to_column(mtcars, var="model")
+mtcars_added_models_no_space
+```
+
+__Question 4:__ Create two datasets, mpg_low (by selecting cars with MPG less than 20) and mpg_high (by selecting cars with MPG greater than or equal to 20).
+
+This was done by subsetting the `mtcars` dataset based on the `mpg` variable, using the the respective code below. I then ordered the data based on the `mpg` variable in each data set to make it easier to visualize.
+
+```{r}
+mpg_low<-mtcars[(mtcars$mpg < 20),]
+mpg_low[order(mpg_low$mpg),]
+mpg_high<-mtcars[(mtcars$mpg >= 20),]
+mpg_high[order(mpg_high$mpg),]
+```
+
+__Question 5:__ Using the pipe (%>%) command, do all of the following steps to the mtcars dataset:
+  1) Sort by "hp"
+  2) Remove all columns different than "cyl", "hp", "model", and "gear"
+  3) create a new variable named "new_variable" that is the multiplication of "cyl" x "gear"
+
+To run this problem, I used the previously created dataset `mtcars_added_models_no_space`, since this data frame already had the row names converted to actual values in column format. I first ordered the data based on the `hp` variable, with the description of `order()` provided above. Next, I chose to include only the 4 prompted variables in this new data frame using the `select()` function provided in `dplyr`. Finally, I used the `mutate()` function, also provided in `dplyr`, to define this new variable as the product of `cyl` and `gear`. All of these steps were piped together to create the new data frame `mtcars_new`.
+
+```{r}
+mtcars_new<-mtcars_added_models_no_space[order(mtcars_added_models_no_space$hp),]%>%
+  select(model,cyl,hp,gear)%>%
+  mutate(new_variable=cyl*gear)
+mtcars_new
+```
+
