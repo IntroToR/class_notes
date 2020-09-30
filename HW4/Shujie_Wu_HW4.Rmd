@@ -1,0 +1,54 @@
+---
+title: "shujie_wu_HW4"
+author: "Shujie Wu"
+date: "9/19/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Read the data
+```{r}
+pheno<-read.table("pheno.txt", header=T)
+```
+
+## 1.How many unique observations are there?
+```{r}
+unique<-unique(pheno$GENO)
+length(unique)
+```
+## 2.Save a text file of a data set containing only range 1
+```{r}
+range1<-pheno[pheno$range==1,]
+write.table(range1, file = "range1.txt")
+```
+
+## 3.The range of Y, M, and h4
+```{r}
+#range of Y
+range(pheno$Y, na.rm = T)
+#range of M
+range(pheno$M, na.rm = T)
+#range of h4
+range(pheno$h4, na.rm = T)
+```
+## 4.What row contains the maximum value of h4
+```{r}
+which.max(pheno$h4)
+#the maximum value is at 427th row of the variable h4
+```
+
+## 5.Using a loop to prints the means of Y, M, h1, h2, h3, and h4
+```{r}
+for (i in names(pheno[,7:12]))
+  print(mean(pheno[,i], na.rm = T))
+```
+
+## 6. Create a data set called pheno2
+```{r}
+pheno2<-pheno
+gsub(pheno2$Y[pheno2$Y>2], 0)
+```
+

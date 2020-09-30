@@ -1,0 +1,54 @@
+---
+title: "Stephen_SchwartzHW5"
+author: "Stephen Schwartz"
+date: "9/27/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Use the R example dataset "mtcars"
+```{r}
+data("mtcars")
+str(mtcars)
+library(tidyverse)
+```
+#1 Sort the data set
+```{r}
+sorted <- arrange(mtcars, cyl, gear)
+sorted
+```
+
+#2 Create the variable "Model"
+```{r}
+new_variable <- mutate(sorted, model = row.names(sorted))
+new_variable
+```
+
+#3 Space Replacement
+```{r}
+removed_spaces <- mutate(new_variable, model = gsub(" ", "_", new_variable$model))
+removed_spaces
+```
+
+#4 Two New Datasets
+```{r}
+mpglow <- filter(removed_spaces, mpg < 20)
+mpghigh <- filter(removed_spaces, mpg >= 20)
+mpglow
+mpghigh
+```
+
+#5 Use the Pipe Command
+```{r}
+PipeCommand <- removed_spaces %>%
+  arrange(hp) %>%
+  select(cyl, hp, model, gear) %>%
+  mutate(new_variable = cyl*gear)
+PipeCommand
+```
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

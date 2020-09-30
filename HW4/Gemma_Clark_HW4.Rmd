@@ -1,0 +1,85 @@
+---
+title: "gemma_clark_HW4"
+author: "Gemma Clark"
+date: "Fall 2020"
+output: html_document
+---
+
+
+## Problem 1
+```{r}
+mydata = read.delim('pheno.txt')
+unique_genos = length(unique(mydata$GENO))
+paste('There are', unique_genos, 'unique GENO observations.')
+```
+
+
+## Problem 2
+```{r}
+mydata = read.delim('pheno.txt')
+x = subset(mydata, range == 1)
+write.table(x)
+```
+
+
+## Problem 3
+```{r}
+mydata = read.delim('pheno.txt')
+Ymin = min(mydata$Y, na.rm = TRUE)
+Ymax = max(mydata$Y, na.rm = TRUE)
+Yrange = Ymax - Ymin
+Mmin = min(mydata$M, na.rm = TRUE)
+Mmax = max(mydata$M, na.rm = TRUE)
+Mrange = Mmax - Mmin
+h4min = min(mydata$h4, na.rm = TRUE)
+h4max = max(mydata$h4, na.rm = TRUE)
+h4range = h4max - h4min
+paste('The ranges of Y, M and h4 are', Yrange,',', Mrange,'and,', h4range,'respectively.')
+```
+
+
+## Problem 4
+```{r}
+mydata = read.delim('pheno.txt')
+h4max = max(mydata$h4, na.rm = TRUE)
+mymatrix = as.matrix(mydata)
+maxrow = c()
+for (i in 1:nrow(mymatrix)) {
+  x = as.numeric((mymatrix[i,'h4']))
+  if (!is.na(x)&& x == h4max) {
+    maxrow = append(maxrow, i)
+    }
+}
+paste('Row', maxrow, 'contains the maximum value of h4.')
+```
+
+
+## Problem 5
+```{r}
+mydata = read.delim('pheno.txt')
+mymatrix = as.matrix(mydata)
+YMh_matrix = mymatrix[,7:12]
+for (i in 1:ncol(YMh_matrix)) {
+  x = mean(as.numeric(YMh_matrix[,i]), na.rm = TRUE)
+  print(x)
+}
+```
+
+
+## Problem 6
+```{r}
+mydata = read.delim('pheno.txt')
+mymatrix = as.matrix(mydata)
+beforeY = mymatrix[,1:6]
+originalY = as.numeric(mymatrix[,7])
+afterY = as.numeric(mymatrix[,8:12])
+newY = c()
+for (i in 1:length(originalY)) {
+  newY[i] = originalY[i]
+  if (originalY[i] < 2 && !is.na(originalY[i])) {
+    newY[i] = 0
+  }
+  
+}
+pheno2 = cbind(beforeY,newY,afterY)
+```
