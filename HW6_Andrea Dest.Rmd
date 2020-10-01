@@ -9,6 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
 __Question 1__
 ```{r}
 ##get range, mean, and median from "distance"
