@@ -1,0 +1,10 @@
+Week 6 homework:
+
+This homework should be submited as an R Markdown document saved with your name (e.g. samuel_fernandes.Rmd) and pushed to the HW6 folder on the class_notes repository on the IntroToR GitHub by next Monday. All code used to get the answers should be provided as R chunks.
+
+Using the data flights from the package nycflights13, do the following:
+a- obtain the range, mean, and median of the variable “distance”.
+b- combine the airlines (also available from nycflights13) with the flights data in a single file.
+c- save a file including only American Airlines (Carrier = AA) ordered by arr_delay.
+d- create boxplots of dep_delay by Carrier (one boxplot for each carrier).
+e- find what is the month with highest arr_delay. Show this in a graph.
