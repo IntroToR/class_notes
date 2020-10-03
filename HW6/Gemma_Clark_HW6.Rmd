@@ -1,0 +1,143 @@
+---
+title: "Gemma_Clark_HW6"
+author: "Gemma Clark"
+date: "Fall 2020"
+output: html_document
+---
+
+## Preparation
+```{r}
+library(nycflights13)
+flights
+library(tidyverse)
+```
+
+
+## Problem 1: Obtain range, mean, and median of distance
+```{r}
+# Not applying na.rm = TRUE because there don't seem to be any missing values in the distance data
+flights_range = max(flights$distance) - min(flights$distance)
+flights_mean = mean(flights$distance)
+flights_median = median(flights$distance)
+```
+
+## Problem 2: Combine airlines and flights data in a single file
+```{r}
+# airline abbreviations for flight are in carrier column
+# nycflights13::airlines is a tibble with a key for the carrier abbreviation and full name
+the_flights = nycflights13::flights
+the_airlines = nycflights13::airlines
+combo = merge(the_flights, the_airlines)
+
+# Checking that carrier abbreviations and airline names match
+for (i in c(1:nrow(combo))) {
+  if (combo$carrier[i] == '9E') {
+    if(combo$name[i] != 'Endeavor Air Inc.') {
+      print('Dont match at row')
+      print(i)
+    }
+  } else if (combo$carrier[i] == 'AA') {
+    if(combo$name[i] != 'American Airlines Inc.') {
+      print('Dont match at row')
+      print(i)
+    }
+  } else if (combo$carrier[i] == 'AS') {
+    if(combo$name[i] != 'Alaska Airlines Inc.') {
+      print('Dont match at row')
+      print(i)
+    }
+  } else if (combo$carrier[i] == 'B6') {
+    if(combo$name[i] != 'JetBlue Airways') {
+      print('Dont match at row')
+      print(i)
+    }
+  } else if (combo$carrier[i] == 'DL') {
+    if(combo$name[i] != 'Delta Air Lines Inc.') {
+      print('Dont match at row')
+      print(i)
+    }
+  } else if (combo$carrier[i] == 'EV') {
+    if(combo$name[i] != 'ExpressJet Airlines Inc.') {
+      print('Dont match at row')
+      print(i)
+    }
+  } else if (combo$carrier[i] == 'F9') {
+    if(combo$name[i] != 'Frontier Airlines Inc.') {
+      print('Dont match at row')
+      print(i)
+    }
+  } else if (combo$carrier[i] == 'FL') {
+    if(combo$name[i] != 'AirTran Airways Corporation') {
+      print('Dont match at row')
+      print(i)
+    }
+  } else if (combo$carrier[i] == 'HA') {
+    if(combo$name[i] != 'Hawaiian Airlines Inc.') {
+      print('Dont match at row')
+      print(i)
+    }
+  } else if (combo$carrier[i] == 'MQ') {
+    if(combo$name[i] != 'Envoy Air') {
+      print('Dont match at row')
+      print(i)
+    }
+  } else if (combo$carrier[i] == 'OO') {
+    if(combo$name[i] != 'SkyWest Airlines Inc.') {
+      print('Dont match at row')
+      print(i)
+    }
+  } else if (combo$carrier[i] == 'UA') {
+    if(combo$name[i] != 'United Air Lines Inc.') {
+      print('Dont match at row')
+      print(i)
+    }
+  } else if (combo$carrier[i] == 'US') {
+    if(combo$name[i] != 'US Airways Inc.') {
+      print('Dont match at row')
+      print(i)
+    }
+  } else if (combo$carrier[i] == 'VX') {
+    if(combo$name[i] != 'Virgin America') {
+      print('Dont match at row')
+      print(i)
+    }
+  } else if (combo$carrier[i] == 'WN') {
+    if(combo$name[i] != 'Southwest Airlines Co.') {
+      print('Dont match at row')
+      print(i)
+    }
+  } else if (combo$carrier[i] == 'YV') {
+    if(combo$name[i] != 'Mesa Airlines Inc.') {
+      print('Dont match at row')
+      print(i)
+    }
+  }
+}
+```
+
+## Problem 3: Create file with only American Airlines flights ordered by arr_delay
+```{r}
+AA_flights = filter(combo, carrier == 'AA')
+ordered_AA = arrange(AA_flights, arr_delay)
+```
+
+## Problem 4: Create boxplots of dep_delay by carrier
+```{r}
+df = select(combo, dep_delay, carrier, name)
+ggplot(df, aes(x = carrier, y = dep_delay, colour = carrier)) + geom_boxplot(na.rm =TRUE) + ggtitle('Flight Departure Delays by Airline') + labs(x = 'Airline Carriers', y = 'Departure Delays (min)')
+```
+
+## Problem 5: Finding the month with the highest arr_delay
+```{r}
+df2 = select(combo, month, day, arr_delay, carrier)
+January = filter(df2, month ==1)
+Jan_max = data.frame(arr_delay = max(January$arr_delay, na.rm = TRUE), month = 1)
+
+
+# Plot all months, highlight point with maximum arr_delay
+p = ggplot(df2, aes(x = month, y = arr_delay)) + geom_point(color = 'blue', na.rm = TRUE) + ggtitle('Flight Arrival Delays by Month') + labs(x = 'Month', y = 'Arrival Delays (min)')
+  # January (month 1 has highest individual arrival delay) at 1272 minutes
+
+p + geom_point(data = Jan_max, colour = 'red')
+# emphasize the highest delay in January with a red dot (instead of blue)
+```
