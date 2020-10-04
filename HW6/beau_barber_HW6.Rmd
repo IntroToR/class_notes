@@ -1,0 +1,84 @@
+---
+title: "Homework 6"
+author: "Beau Barber"
+date: "10/4/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+___Using the data flights from the package nycflights13, do the following:___
+
+```{r}
+#Obtain data frame
+install.packages("nycflights13")
+flights <- nycflights13::flights
+```
+
+
+1- obtain the range, mean, and median of the variable “distance”.
+```{r}
+range_dist=range(flights$distance)
+mean_dist=mean(flights$distance)
+median_dist=median(flights$distance)
+```
+
+2- combine the airlines (also available from nycflights13) with the flights data in a single file.
+```{r}
+library(dplyr)
+airlines <- nycflights13::airlines
+#Use merge to combine the flights and airline data by the column they share, "carrier"
+flights_airlines <- merge(airlines,flights,by="carrier")
+head(flights_airlines)
+```
+
+3- save a file including only American Airlines (Carrier = AA) ordered by arr_delay.
+```{r}
+
+aa_only <- flights_airlines %>%
+  filter(carrier == "AA") %>%
+  arrange(arr_delay)
+
+save(aa_only,file = "aa_only.RData")
+
+```
+
+
+4- create boxplots of dep_delay by carrier (one boxplot for each carrier).
+
+```{r}
+library(ggplot2)
+dep_delay_plot<-ggplot(flights_airlines, aes(x=carrier, y=(dep_delay)))+
+  geom_boxplot(alpha = 0.5)+
+  ggtitle("Departure Delays by Carrier")+
+  labs(x="Carrier", y="Departure Delay (minutes)")
+dep_delay_plot
+```
+
+
+5- find what is the month with the highest arr_delay. Show this in a graph.
+```{r}
+library(ggplot2)
+
+avg_month_arr_delay <- group_by(flights, month)%>%
+  summarise(avg_arr_delay=mean(arr_delay, na.rm=T))
+head(avg_month_arr_delay)
+
+#Max Average Arrival Delay row
+max_month_arr_delay <- avg_month_arr_delay[which.max(avg_month_arr_delay$avg_arr_delay),]
+
+p_plot<-ggplot(avg_month_arr_delay, aes(x=month, y=avg_arr_delay))+
+  geom_col()+
+  ggtitle("Average Arrival Delay each Month")+
+  labs(x="Month", y="Average Arrival Delay (minutes)")#+
+  scale_x_continuous(name="Months",limits=c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"))
+  #since I need month to be discrete and it is currently a continous variable
+
+
+
+p_plot + geom_col(data = max_month_arr_delay, colour = 'red')
+
+```
+The month with the greatest average delay time is July.
