@@ -1,5 +1,5 @@
 ---
-title: "HW6"
+title: "Stephen Schwartz HW6"
 author: "Stephen Schwartz"
 date: "10/4/2020"
 output: html_document
