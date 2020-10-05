@@ -1,0 +1,63 @@
+---
+title: "HW6_Shujie_Wu"
+author: "Shujie_Wu"
+date: "2020/10/5"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## getting the data
+```{r}
+library("nycflights13")
+flights<-nycflights13::flights
+airlines<-nycflights13::airlines
+```
+
+## 1
+```{r}
+(range<-range(flights$distance))
+(mean<-mean(flights$distance))
+(median<-median(flights$distance))
+```
+
+## 2
+```{r}
+flights_airlines<-merge(flights, airlines,all.x =T)
+```
+
+## 3
+```{r}
+library(dplyr) # make sure that %>% can work when knitting
+AA<-flights_airlines %>% 
+  filter(carrier == "AA") %>% 
+  arrange(arr_delay)
+write.table(AA,"AA flights")
+```
+
+## 4
+```{r}
+library(ggplot2) # make the function working when knitting
+ggplot(flights_airlines,aes(x = carrier, y = dep_delay))+
+  geom_boxplot()+ggtitle("Departure Delay by Carriers")+
+  xlab("Carriers") + ylab("Departure Delay")
+```
+
+## 5
+```{r}
+# Creating the table with highest arrival delay versus months
+highest_arr_delay <- select(flights_airlines, arr_delay, month) %>%
+  na.omit()%>%
+  group_by(month)%>% 
+  summarize(highest = which.max(arr_delay))
+# Visualizing the table
+ggplot(highest_arr_delay, aes(x = month, y = highest))+
+    geom_bar(stat = "identity")+
+    ggtitle("Highest Arrival Delay by Month")+
+    xlab("Months")+ylab("Highest arrival delay")+
+    scale_x_discrete(limits = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"))
+```
+
+
