@@ -1,0 +1,75 @@
+---
+title: "Stephen Schwartz HW6"
+author: "Stephen Schwartz"
+date: "10/4/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+install.packages("nycflights13")
+library("nycflights13")
+library(dplyr)
+library(ggplot2)
+```
+
+
+#1 - obtain the range, mean, and median of the variable "distance".
+```{r}
+data_flights <- (flights)
+
+(range(data_flights$distance))
+(mean(data_flights$distance))
+(median(data_flights$distance))
+```
+#2 - combine the "airlines" with the "flights" data in a single file
+```{r}
+combined <- merge(flights, airlines)
+data_combined <- data.frame(combined)
+write.csv(data_combined, file = "C://Users/ss136/Desktop/Airlines_with_Flights.csv")
+```
+
+#3 -  save a file including only American Airlines ordered by arr_delay
+```{r}
+AA <- data_combined %>%
+  filter(carrier  == "AA") %>%
+  arrange(arr_delay)
+write.csv(AA, file = "C://Users/ss136/Desktop/AA.csv")
+```
+
+#4 - create boxplots of dep_delay by carrier
+```{r}
+Boxplot1 <- ggplot(data_combined, aes(x=carrier, y=dep_delay))+
+  geom_boxplot(fill = "red", outlier.color = "green", na.rm = T)+
+  ggtitle("Q#4 Departure Delay by Carrier")+
+  labs(x = "Carrier", y = "Departure Delay")+
+  theme_dark()
+Boxplot1
+```
+
+#5 - find what is the month with the highest arr_delay. Show this in a graph
+```{r}
+average_delay_bymonth <- select(data_combined, arr_delay, month) %>%
+  na.omit() %>%
+  group_by(month) %>%
+  summarise(average_delay = mean(arr_delay))
+
+(which.max(average_delay_bymonth$average_delay))
+#The month with the highest average delay is #7 which is July. 
+
+Month_Names <- c("Jan","Feb","March","April","May","June","July","Aug","Sept","Oct","Nov","Dec")
+mutate(average_delay_bymonth, Month_Names)
+
+Histogram1 <- ggplot(average_delay_bymonth, aes(x=Month_Names, y=average_delay))+
+  geom_bar(stat = "identity")+
+  ggtitle("Average Delay By Month")+
+  labs(x = "Month", y = "Average Delay")
+Histogram1
+```
+
+
+
+

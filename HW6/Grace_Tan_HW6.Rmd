@@ -1,0 +1,143 @@
+---
+title: "Grace_Tan_HW6"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Install the flights packages, and open other packages that will be used
+
+```{r}
+library(nycflights13)
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+```
+
+
+1) obtain the range, mean, and median of the variable “distance”
+
+```{r}
+flights_df <- data.frame(flights)
+
+range(flights_df$distance)
+mean(flights_df$distance)
+median(flights_df$distance)
+```
+
+
+2) combine the airlines (also available from nycflights13) with the flights data in a single file.
+
+```{r}
+airlines_df <- data.frame(airlines)
+
+joined_df <- full_join(flights_df, airlines_df, by = "carrier")
+write.table(joined_df, file = "joined_flight_data.txt")
+head(joined_df)
+```
+
+
+3) save a file including only American Airlines (Carrier = AA) ordered by arr_delay.
+
+```{r}
+AA_df <- joined_df %>%
+  filter(carrier == "AA") %>%
+  arrange(arr_delay)
+  
+write.table(AA_df, file = "AA_data.txt")
+head(AA_df)
+```
+
+
+4) create boxplots of dep_delay by carrier (one boxplot for each carrier).
+
+```{r}
+library(ggplot2)
+
+delay_boxplot <- ggplot(data = joined_df, aes(x = carrier, y = dep_delay)) +
+  geom_boxplot() +
+  ggtitle("Departure Delay by Carrier") +
+  labs(x= "Carrier", y = "Departure Delay (minutes)") +
+  stat_summary(fun=mean, geom="point", color="red")
+
+delay_boxplot
+```
+
+5) find what is the month with the highest arr_delay. Show this in a graph.
+
+```{r}
+months_df <- joined_df %>%
+  select(month, arr_delay) %>%
+  arrange(desc(arr_delay))
+
+max_arr_delay <- matrix(NA, nrow = 12, ncol=1)
+colnames(max_arr_delay) <- "max_arr_delay"
+
+i <- 1
+for (i in 1:12) {
+  month_i <- filter(months_df, month == i)
+  max_arr <- max(month_i, month_i$arr_delay, na.rm = TRUE)
+  max_arr_delay[i,1] <- max_arr
+  i <- i+1
+}
+
+max_arr_delay
+max(max_arr_delay)
+```
+
+January (month 1) is clearly the month with the single highest arr_delay at 1272 minutes.  Now we will create a graph to show each month's longest arr_delay value, with January highlighted as the max.
+
+```{r}
+max_marker <- c(1, rep(0, 11))
+max_arr_delay_df <- data.frame(max_arr_delay, max_marker)
+
+max_arr_delay_bar <- ggplot(data = max_arr_delay_df, aes(x=1:12, y=max_arr_delay)) +
+  geom_bar(stat = "identity", aes(fill = max_marker)) +
+  theme(legend.position = "none") +
+  ggtitle("Max Arrival Delay Event per Month", "2013") +
+  labs (x = "Month", y = "Max Arrival Delay (min)") +
+  scale_x_discrete(limits=c(1:12))
+
+max_arr_delay_bar
+```
+
+
+Another way to address this question is to look at the average arrival delay times for each month, and see which month had the largest delays on average.  This is likely the more useful graph because it shows you essentially the months where you are most likely to experience a delay.
+
+```{r}
+months_df <- joined_df %>%
+  select(month, arr_delay) %>%
+  arrange(month)
+
+avg_arr_delay <- matrix(NA, nrow = 12, ncol=1)
+colnames(avg_arr_delay) <- "avg_arr_delay"
+
+i <- 1
+for (i in 1:12) {
+  month_i <- filter(months_df, month == i)
+  avg_arr <- mean(month_i$arr_delay, na.rm = TRUE)
+  avg_arr_delay[i,1] <- avg_arr
+  i <- i+1
+}
+
+avg_arr_delay
+max(avg_arr_delay)
+```
+
+July (month 7) has the maximum average arrival delay time.  Now we will highlight this on a bar graph.
+
+```{r}
+max_marker <- c(rep(0,6), 1, rep(0,5))
+avg_arr_delay_df <- data.frame(avg_arr_delay, max_marker)
+
+avg_arr_delay_bar <- ggplot(data = avg_arr_delay_df, aes(x=1:12, y=avg_arr_delay)) +
+  geom_bar(stat = "identity", aes(fill = max_marker)) +
+  theme(legend.position = "none") +
+  ggtitle("Average Arrival Delay per Month", "2013") +
+  labs (x = "Month", y = "Average Arrival Delay (min)") +
+  scale_x_discrete(limits=c(1:12))
+
+avg_arr_delay_bar
+```

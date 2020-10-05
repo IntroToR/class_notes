@@ -1,0 +1,121 @@
+---
+title: "Homework 6"
+author: "Matthew Runyon"
+date: "10/2/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+First I loaded the two packages that are necessary for this homework, `nycflights13` and `tidyverse`. Then I loaded the data sets.
+
+```{r}
+library("nycflights13")
+library("tidyverse")
+
+data(flights)
+data(airlines)
+```
+
+__Problem 1:__ Obtain the range, mean, and median of the variable "distance".
+
+The most straightforward way to solve this problem is simply to use the base `range()`, `mean()`, and `median()` functions.
+
+```{r}
+range(flights$distance)
+mean(flights$distance)
+median(flights$distance)
+```
+
+__Problem #2:__ Combine the airlines with the flights data in a single file.
+
+This combination can be accomplished using the `merge()` function. No additional arguments are needed besides the two data sets to combine in this circumstance. These formed the combined data frame `merge`.
+
+```{r}
+merge<-merge(airlines,flights)
+```
+
+To check my work (i.e. not required for completion of the problem), I ordered the columns of the original `flights` data set so that I could better visually inspect it. I created a vector containing the variables in the order I wanted to have them in. Then, I arranged the data by the variables `year`, `month`, `day`, `carrier`, and `tailnum`. Again, this wasn't necessary but helped for visualization. These manipulations formed the new data frame `flights2`.
+
+```{r}
+column_order<-c("year", "month", "day", "carrier", "flight", "tailnum", "origin", "dest", "sched_dep_time", "dep_time", "dep_delay", "sched_arr_time", "arr_time", "arr_delay", "distance", "air_time", "hour", "minute", "time_hour")
+
+flights2<-flights[,column_order]%>%
+  arrange(year, month, day, carrier, tailnum)
+```
+
+Finally, I compared this to the merged data set. I ordered the merged data set in the same order by creating a second vector (I couldn't use the original one because the original one didn't contain the `name` variable), and again arranged the data by the variables `year`, `month`, `day`, `carrier`, and `tailnum`.
+
+```{r}
+column_order_2<-c("year", "month", "day", "name", "carrier", "flight", "tailnum", "origin", "dest", "sched_dep_time", "dep_time", "dep_delay", "sched_arr_time", "arr_time", "arr_delay", "distance", "air_time", "hour", "minute", "time_hour")
+
+merge2<-merge[,column_order_2]%>%
+  arrange(year, month, day, carrier, tailnum)
+```
+
+The merged and original data seemed to line up properly, so I then combined them into an actual file with `write.table()`.
+
+```{r}
+write.table(merge2, file="airlines_plus_flights.txt")
+```
+
+__Problem 3:__ Save a file including only American Airlines (Carrier = AA) ordered by arr_delay.
+
+I accomplished this all in one step using the pipe command. Taking the original `flights` data set, I used the `filter()` function to find only those individuals whose carrier was `AA`, then the `arrange()` function to order the data by the variable `arr_delay`, and finally used the `write.table()` function to create an actual file with only this data.
+
+```{r}
+flights%>%
+  filter(carrier == "AA")%>%
+  arrange(arr_delay)%>%
+  write.table("american_airlines.txt")
+```
+
+__Problem 4:__ Create boxplots of dep_delay by carrier (one boxplot for each carrier).
+
+Using the `ggplot()` function, I used the `flights` data with the `aes()` arguments of `carrier` for my x variable and `dep_delay` for my y variable. I plotted these using the `geom_boxplot()` function. Since there were a lot of overlapping data points, I altered the `alpha` option to try clearing this up. I set my title and axis labels with `ggtitle()` and `labs()`, respectively, and then removed the gridded background with the `theme()` function. Finally, I added symbols (red +) to the boxplots to represent the mean departure delay per carrier with the `stat_summary()` function.
+
+```{r}
+dep_delay_plot<-ggplot(flights, aes(x=carrier, y=dep_delay))+
+  geom_boxplot(alpha=1/5)+
+  ggtitle("Departure Delays by Carrier")+
+  labs(x="Carrier", y="Departure Delay (minutes)")+
+  theme(panel.grid=element_blank())+
+  stat_summary(fun=mean, geom="point", pch="+", size=2.5, color="red", fill="red")
+dep_delay_plot
+```
+
+__Problem 5:__ Find what is the month with the highest arr_delay. Show this in a graph.
+
+I wasn't sure whether the question was asking for the month containing the highest individual arrival delay value, or the highest average arrival delay value, so I made graphs for both.
+
+For the graph to answer which month contained the highest individual arrival delay value, I used `ggplot()` as described above with the appropriate substitutions for the `aes()` arguments. Here, I used `geom_point()`, which showed individual data points in individual months. Title, axis titles, and gridding were adjusted as previously described. In addition, I formatted the x-axis scale to show individual months 1 through 12 using the `scale_x_continuous()` function.
+
+```{r}
+ind_arr_delay_plot<-ggplot(flights, aes(x=month, y=arr_delay))+
+  geom_point(color="black", alpha=1/5)+
+  ggtitle("Individual Arrival Delays by Month")+
+  labs(x="Month (calendar order)", y="Arrival Delay (minutes)")+
+  theme(panel.grid=element_blank())+
+  scale_x_continuous(breaks=c(1:12))
+ind_arr_delay_plot
+```
+
+Here, we see that Month 1 (January) had the highest individual arrival delay, since its point is higher than anything else on the graph.
+
+For the graph to answer which month had the highest average arrival delay, I first used the `group_by()` function to group individuals with the same month value together. Then I calculated the mean of each month grouping and organized them in a tibble using the `summarize()` function. This tibble was called `avg_arr_delay`. Finally, I used this data set as the data for a new graph created with `ggplot()`. Here, I used the `geom_bar()` function to create a bar graph. Major arguments and options were fulfilled as  described above
+
+```{r}
+avg_arr_delay<-group_by(flights, month)%>%
+summarize(arr_delay=mean(arr_delay, na.rm=T))
+
+ggplot(avg_arr_delay, aes(x=month,y=arr_delay))+
+  geom_bar(stat="identity")+
+  ggtitle("Average Arrival Delay by Month")+
+  labs(x="Month (calendar order)", y="Arrival Delay (minutes)")+
+  theme(panel.grid=element_blank())+
+  scale_x_continuous(breaks=c(1:12))
+```
+
+Here, we can see that Month 7 (July) has the highest average arrival delay.

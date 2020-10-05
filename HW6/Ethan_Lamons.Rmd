@@ -1,0 +1,57 @@
+---
+title: "HW_6"
+author: "Ethan Lamons"
+date: "10/4/2020"
+output: html_document
+---
+```{r}
+library(nycflights13)
+library(tidyverse)
+data("flights")
+```
+
+
+# Part 1
+
+```{r}
+distance_mean <- mean(flights$distance, na.rm = TRUE)
+distance_mean
+distance_range <- range(flights$distance, na.rm = TRUE)
+distance_range
+distance_median <- median(flights$distance, na.rm = TRUE)
+distance_median
+```
+
+# Part 2
+
+```{r}
+airlines_and_flights <- full_join(airlines, flights)
+airlines_and_flights
+```
+
+# Part 3
+
+```{r}
+AA_only <- airlines_and_flights %>%
+  filter(carrier == "AA") %>%
+  arrange(arr_delay) %>%
+  write.table("AA_only.txt")
+```
+
+# Part 4
+
+```{r}
+ggplot(airlines_and_flights) +
+  aes(x = carrier, y = dep_delay, colour = carrier) +
+  geom_boxplot()
+```
+
+# Part 5
+
+```{r}
+ggplot(airlines_and_flights) +
+  aes(x = month, y = arr_delay) +
+  geom_col(width = 0.75) +
+  scale_x_continuous(n.break = 12)
+```
+From the above graph, you can see that July had the highest arr_delay. 
