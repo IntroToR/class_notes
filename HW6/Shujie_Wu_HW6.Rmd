@@ -56,7 +56,7 @@ highest_arr_delay <- select(flights_airlines, arr_delay, month) %>%
 ggplot(highest_arr_delay, aes(x = month, y = highest))+
     geom_bar(stat = "identity")+
     ggtitle("Highest Arrival Delay by Month")+
-    xlab("months")+ylab("average arrival delay")+
+    xlab("Months")+ylab("Highest arrival delay")+
     scale_x_discrete(limits = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"))
 ```
 
