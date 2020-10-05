@@ -2,7 +2,7 @@
 title: "Jadelyn_Stewart_HW6"
 author: "Jadelyn Stewart"
 date: "10/5/2020"
-output: html_document
+output: html_document 
 ---
 
 ```{r setup, include=FALSE}
