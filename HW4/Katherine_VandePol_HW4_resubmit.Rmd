@@ -1,0 +1,101 @@
+---
+title: "Katherine_VandePol_HW4_resubmit"
+author: "K. Vande Pol"
+date: "10/5/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Below is the copied code from the original submission:
+
+
+---
+title: "Katherine_VandePol_HW4"
+author: "K. Vande Pol"
+date: "9/20/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+For homework 4, please pull the folder HW4 from the class_notesrepository on GitHub. It contains the pheno.txt* document to be used in this homework. From the pheno.txt file, obtain the following information:
+
+Starting by reading the file into R:
+```{r}
+pheno <- read.table(file.choose("pheno.txt"), header = T, sep = "")
+head(pheno)
+```
+
+
+
+1) How many unique observations are there in the “GENO” variable? (You haven’t used this function in class yet. Try to look for functions.)
+
+```{r}
+uniqueobs <- unique(pheno$GENO)
+length(uniqueobs)
+```
+There are 485 unique observations of the "GENO" variable.
+
+
+
+2) Save as a text file a subset of the pheno data set containing only range 1.
+```{r}
+phenorange1 <- pheno[pheno$range == 1,]
+phenorange1
+write.table(phenorange1, file = "phenorange1.txt")
+```
+phenorange1.txt now contains all of the data with the range variable = 1, without the data where range had other values.
+
+
+
+3) The range (minimum and maximum value) of the “Y”, “M”, and “h4” variables.
+
+First to find the range of the variable Y:
+```{r}
+range(pheno$Y, na.rm = T)
+```
+The range of Y is from minimum = 0.5250602 to maximum = 21.6188835.
+
+To find the range of the variable M:
+```{r}
+range(pheno$M, na.rm = T)
+```
+The range of M is from minimum = 0.4502466 to maximum = 0.8779443.
+
+To find the range of the variable h4:
+```{r}
+range(pheno$h4, na.rm = T)
+```
+The range of h4 is from minimum = 1.204 to maximum = 5.100.
+
+
+
+4) What row contains the maximum value of “h4”?
+```{r}
+which.max(pheno$h4)
+```
+The maximum value is at 427th row of the variable h4.
+
+
+5) Create a loop that prints the mean of the variables “Y”, “M”, “h1”, “h2”, “h3”, and “h4” (it must be done using a loop, e.g., for, while, or repeat).
+```{r}
+for (i in names(pheno[,7:12]))
+  print(mean(pheno[,i], na.rm = T))
+```
+The mean of Y is 7.99446, of M is 0.7431033, for h1 is 0.2766773, for h2 is 1.248048, for h3 is 2.621128, and for h4 is 3.165503.
+
+
+6) Create a dataset called pheno2 and replace the values of “Y” that are smaller than 2 by 0.
+```{r}
+pheno2 <- pheno
+pheno2$Y[pheno2$Y < 2] <- 0
+pheno2
+```
+
+The dataset pheno2 now contains a Y variable where all original values < 2 are set to 0.
