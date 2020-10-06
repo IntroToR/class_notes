@@ -1,0 +1,56 @@
+---
+title: "HW_6"
+author: "Raina Monaghan"
+date: "10/5/2020"
+output: html_document
+---
+
+### Attaching packages:
+```{r}
+library(tidyverse)
+library(nycflights13)
+```
+
+### 1. Mean, median and range of the variable "distance":
+```{r}
+summarize(flights, 
+  mean(distance), 
+  median(distance), 
+  range(distance)
+  )
+```
+
+### 2. Joining "flights" and "airlines" dataset and saving them into a new csv file:
+```{r}
+library(readr)
+flights1 <-inner_join(flights, nycflights13::airlines)
+write_csv(flights1, path = "flights_airlines.csv")
+```
+
+### 3. Saving a file with only American Airlines, ordered by arr_delay:
+```{r}
+AA <- flights1 %>%
+  filter(carrier == "AA") %>%
+  arrange(arr_delay)
+write_csv(AA, path = "American_Airlines.csv")
+```
+
+### 4. Creating boxplots representing the dep_delays of all carriers:
+```{r}
+carrier <- flights1$carrier
+dep_delay <- flights1$dep_delay
+boxplot(dep_delay~carrier,
+        data=flights1,
+        main="Departure Delay By Carrier")
+```
+
+
+### 6. Create a graph to show which month had the highest arr-delay.
+```{r}
+arr_delay <- flights1$arr_delay
+month <- flights1$month
+p1 <- ggplot() + geom_line(aes(y = arr_delay, x = month), data = flights1)
+p1
+```
+ 
+
