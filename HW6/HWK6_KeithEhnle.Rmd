@@ -1,0 +1,99 @@
+---
+title: "HWK 6"
+author: "Keith Ehnle"
+date: "10/2/2020"
+output: html_document
+---
+
+```{r}
+
+install.packages("nycflights13")
+library(nycflights13)
+data(flights)
+library(dplyr)
+library(ggplot2)
+
+```
+
+#1
+```{r}
+
+A<- mean(flights$distance)
+B<- median(flights$distance)
+C<- range(flights$distance)
+
+```
+
+#2
+```{r}
+
+data("airlines")
+combined<-merge(airlines, flights)
+write.table(combined, file = "Airlines_With_Flights_In_A_Single _File.csv")
+
+```
+
+#3
+```{r}
+
+American_Airlines<-combined %>% 
+  filter(carrier =="AA" ) %>% 
+  arrange(arr_delay)
+write.table(American_Airlines, file= "American_Airlines_by_Arrival_Delay.csv")
+
+```
+
+#4
+```{r}
+
+boxplots<- ggplot(combined, aes(x=carrier, y=dep_delay))+
+  geom_boxplot(na.rm = TRUE)+
+  ggtitle("Departure Delays by Carrier")
+boxplots
+
+```
+
+#5
+```{r}
+
+highest_month<-select(combined, month, arr_delay) %>%
+  group_by(month)
+  summarise(Average_Delay = mean(arr_delay, na.rm = TRUE))
+  
+highest_arrival_delay_month<- which.max(highest_month$Average_Delay)
+
+Graph<- ggplot(highest_month, aes(x=month, y=Average_Delay))+
+  geom_col()+
+  ggtitle(" Arrival Delays Across All Carriers By Month")
+
+Graph
+
+```
+
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
