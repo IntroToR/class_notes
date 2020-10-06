@@ -1,0 +1,50 @@
+---
+title: "Johana_Coronel_hmw_6"
+author: "Johana Coronel"
+date: "10/2/2020"
+output: html_document
+---
+
+```{r}
+getwd()
+setwd("C:/Users/johis/Documents/R/class_notes/HW6")
+library(tidyverse)
+library(nycflights13)
+install.packages("nycflights13")
+library(dplyr)
+library(ggplot2)
+```
+Question 1 range, mean, and median of the variable distance 
+```{r}
+flights= nycflights13::flights 
+range(flights$distance)
+mean(flights$distance)
+median(flights$distance)
+```
+Question 2 combine airlines with the flights data in a single file 
+```{r}
+combination= merge(flights, airlines)
+```
+Question 3 save a file including American Airlines carrier ordered by arr_delay
+
+```{r}
+americanairlines= combination %>%
+  filter(combination$carrier=="AA") %>%
+  arrange(desc(arr_delay))
+write.csv(americanairlines, file= "American Airlines. txt")
+
+```
+Question 4 create a boxplots of dep_delay by carrier 
+```{r}
+boxplot_delay= ggplot(combination,aes(x= carrier, y= dep_delay))+ geom_boxplot(fill= "orange", outlier.colour = "black", na.rm = T)+ ggtitle("Delay Departure by Carrier")
+boxplot_delay
+```
+Question 5 Month with the highest arr_delay, graph 
+
+
+```{r}
+ggplot(combination, aes(x= factor(month), y= arr_delay))+ ggtitle("Arrival delay per month")+ geom_boxplot(outlier.color = "black", outlier.size = 1, alpha= 1, na.rm = T)
+  
+```
+# January is the month with the highest arr_delay. 
+
