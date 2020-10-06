@@ -1,0 +1,67 @@
+---
+title: "suzanna_storms_wk5"
+author: "Suzanna Storms"
+date: "9/27/2020"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(magrittr)
+library(knitr)
+library(tidyverse)
+```
+
+
+
+Use the "mtcars" package
+question 1: sort hthe dtaset based on the variables "cyl" and "gear" (a single step, cyl is the first variable to be sorted and gear is the second one)
+
+```{r cars}
+cars<-mtcars
+as_tibble(cars)
+engine <- arrange(cars, cyl, gear)
+```
+Question 2: create a variable called "model" with the maes of the rows of the dataset.
+```{r}
+row.names.data.frame(cars)
+model <-row.names.data.frame(cars)
+```
+
+Question 3: replace the space of all the models by "_".
+```{r}
+rownames_to_column(cars, var = "model")
+cars2<- cars %>%
+    mutate(model = str_replace(model, " ", "_"))
+```
+Question 4: create two datasets, one with mpg_low (by selecting cars with MPG less than 20) and mpg_high (by selecting cars with MPG greater than or equal to 20)
+
+```{r}
+library(magrittr)
+#%<>% #used to the PIPE to the original dataset
+  
+MPG_low<- cars2 %>%
+  group_by(mpg) %>%
+  filter(mpg < 20)
+MPG_high<- cars2 %>%
+  group_by(mpg) %>%
+  filter(mpg >= 20)
+
+```
+Question 5:
+Using the pipe (%>%) command do all of these steps onto the mtcars dataset: sort by “hp”, remove all columns different than “cyl”, “hp”, " model“, and”gear“, create a new variable named”new_variable" that is the multiplication of “cyl” x “gear”.
+
+```{r}
+Q5<- cars2 %>%
+  select(cyl, model,hp, gear) %>%
+  mutate(cyl *gear)
+  
+  
+
+```
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
