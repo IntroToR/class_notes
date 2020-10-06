@@ -1,0 +1,92 @@
+---
+title: "Alex_Armstrong_HW6"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Install packages:
+```{r}
+install.packages("nycflights13")
+install.packages("tidyverse")
+library(nycflights13)
+library(tidyverse)
+data("flights")
+
+```
+
+
+Question 1:
+```{r}
+flights_mean <- mean(flights$distance)
+flights_range <- range(flights$distance)
+flights_median <- median(flights$distance)
+
+```
+
+
+Question 2:
+```{r}
+data("airlines")
+merged_data <- merge(flights, airlines)
+write.table(merged_data, file="airlines_flights.txt")
+
+```
+
+
+Question 3:
+```{r}
+merged_data %>% 
+  filter(carrier == "AA") %>% 
+  arrange(arr_delay) %>% 
+  write.table("american_airlines.txt")
+```
+
+
+Question 4:
+```{r}
+dep_delay_plot <- ggplot(flights, aes(x=carrier, y=dep_delay))+
+  geom_boxplot(na.rm =T)+
+  ggtitle("Departure Delays by Carrier")+
+  theme(plot.title=element_text(hjust = 0.5))+
+  #above line is to center the title
+  geom_point(color="red")
+  labs(x = "Carrier", y = "Departure Delay Time (mins)")
+
+dep_delay_plot
+```
+
+
+Question 5:
+```{r}
+ggplot(flights, aes(x = month, y = arr_delay))+ 
+  geom_point(color = 'red', na.rm = T)+ 
+  ggtitle('Flight Arrival Delay')+ 
+  theme(plot.title=element_text(hjust = 0.5))+
+  labs(x = 'Month', y = 'Arrival Delays (mins)')
+
+# The graph shows January is the month with the longest delay
+```
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

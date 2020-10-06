@@ -1,0 +1,65 @@
+---
+title: "homework 6"
+author: "Seda Ozer"
+date: "10/4/2020"
+output: html_document
+---
+
+```{r}
+library(nycflights13)
+library(dplyr)
+library(tidyverse)
+data(flights)
+```
+#1 obtain the range, mean, and median of the variable “distance”.
+```{r}
+range(flights$distance)
+mean(flights$distance)
+median(flights$distance)
+```
+#2- combine the airlines (also available from nycflights13) with the flights data in a single file.
+```{r}
+data("airlines")
+combineddata<-merge(flights, airlines)
+```
+#3- save a file including only American Airlines (Carrier = AA) ordered by arr_delay.
+```{r}
+Carrier_AA <- combineddata %>%
+  filter(carrier == "AA") %>%
+  arrange(arr_delay)
+
+write.csv(Carrier_AA, file= "Carrier_AA.csv")
+head(Carrier_AA)
+```
+#4- create boxplots of dep_delay by carrier (one boxplot for each carrier)
+```{r}
+library(ggplot2)
+ggplot(combineddata, aes(x = factor(carrier), y = dep_delay)) +
+  ggtitle("dep_delay by carrier")+
+  geom_boxplot( 
+    alpha=1,
+    outlier.color="purple",
+    outlier.size =1,
+    na.rm=TRUE
+)
+```
+#5-find what is the month with the highest arr_delay. Show this in a graph.
+```{r}
+ggplot(combineddata, aes(x = factor(month), y = arr_delay))+
+         ggtitle("Arr_delays for each month")+
+         geom_boxplot(
+           alpha=1,
+           outlier.color="red",
+           outlier.size =1,
+           na.rm=TRUE
+)
+```
+```{r}
+max(combineddata$arr_delay, na.rm = TRUE)
+```
+#The month with the highest arr_delay is January indicating the highest outlier.
+I confirmed it via max function and found 1272 which is matching with boxplot.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```

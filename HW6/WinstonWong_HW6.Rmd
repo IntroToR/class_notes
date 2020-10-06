@@ -1,0 +1,89 @@
+---
+title: "WinstonWong_HW6"
+author: "Winston Wong"
+date: "10/3/2020"
+output: html_document
+---
+```{r}
+library(nycflights13)
+data(flights)
+as.data.frame(flights)
+```
+
+#1- obtain the range, mean, and median of the variable “distance”
+
+```{r}
+range_distance <- range(flights$distance)
+range_distance
+
+mean_distance <- mean(flights$distance)
+mean_distance
+
+median_distance <- median(flights$distance)
+median_distance
+```
+
+#2- combine the airlines (also available from nycflights13) with the flights data in a single file.
+
+```{r}
+airlinesflights_merge <- merge(flights,airlines)
+airlinesflights_merge
+```
+
+#3- save a file including only American Airlines (Carrier = AA) ordered by arr_delay.
+```{r}
+#selecting variables "carrier" and "arr_delay"
+amerAir <- select(airlinesflights_merge, carrier, arr_delay)
+
+#selecting only "AA" in carrier variable
+amerAir2 <- filter(amerAir, carrier == "AA")
+
+#ordering by arr_delay
+amerAir3 <- amerAir2[order(amerAir2$arr_delay),]
+
+#saving the file
+write.table(amerAir3, file = "amerAir3.txt", sep = "\t",row.names = TRUE)
+
+#Alternatively we could use the pipe function
+amerAir <- airlinesflights_merge %>% select(carrier, arr_delay) %>% filter(carrier == "AA") 
+amerAir_ordered <- amerAir[order(amerAir$arr_delay),]
+
+```
+
+#4- create boxplots of dep_delay by carrier (one boxplot for each carrier).
+```{r}
+
+#Boxplot with R base
+boxplot(dep_delay~carrier,data=airlinesflights_merge, main="dep_delay Data by Carrier",
+   xlab="Carrier", ylab="dep_delay")
+   
+#Boxplot using ggplot2
+as.factor(airlinesflights_merge$dep_delay)
+ggplot(airlinesflights_merge, aes(x = carrier, y = dep_delay)) + 
+  geom_boxplot()
+```
+
+#5 find what is the month with the highest arr_delay. Show this in a graph
+```{r}
+highest_arr_delay <- boxplot(arr_delay~month, data = airlinesflights_merge,
+   main="arr_delay Data by Carrier",
+   xlab="month", ylab="arr_delay")
+
+#from the plot we can see that month 1 has the highest arr_delay value
+
+plot(highest_arr_delay)
+
+#checking work
+max(airlinesflights_merge$arr_delay, na.rm = TRUE) #returns value of 1272 as max value in arr_delay
+which(airlinesflights_merge$arr_delay == 1272,) #finding row number of value of 1272 which is 212861
+airlinesflights_merge[212861,3] # returns month 1
+
+sum(airlinesflights_merge$arr_delay == 1272, na.rm = TRUE) #checking number of instances of 1272, returns 1
+```
+
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

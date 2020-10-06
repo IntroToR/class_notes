@@ -1,0 +1,91 @@
+---
+title: "Homework_6"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+#1
+
+```{r}
+library(nycflights13)
+data_frame1<-flights
+mean(data_frame1$distance)
+range(data_frame1$distance)
+median(data_frame1$distance)
+```
+
+#2
+
+```{r}
+library(nycflights13)
+library(tidyverse)
+data_frame2<-nycflights13::airlines
+df<-full_join(data_frame1,data_frame2)
+ 
+```
+
+
+#3
+
+```{r}
+AA<-df %>%
+filter(carrier=="AA") %>%
+arrange(desc(arr_delay))
+```
+
+
+#4
+```{r}
+ggplot(df,aes(x=carrier, y=dep_delay,colour=carrier))+geom_boxplot()+xlab("Carrier") + ylab("Departure Delay (minutes)")
+```
+
+#5
+```{r}
+ggplot(df, aes(x=month ,y=arr_delay,colour=month)) + geom_bar(stat="identity")+
+xlab("month") + ylab("Arrival Delay (minutes)")+ scale_x_discrete(name="month",limits=c("1","2","3","4","5","6","7","8","9","10","11","12"))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

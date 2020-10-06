@@ -1,0 +1,58 @@
+---
+title: "Homework_6"
+author: "Si Chen"
+date: "10/2/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library("tidyverse")
+library("nycflights13")
+library(dplyr)
+data(flights)
+data(airlines)
+```
+
+```{r}
+#1 obtain the range, mean, and median of the variable “distance”
+range(flights$distance)
+mean(flights$distance)
+median(flights$distance)
+```
+```{r}
+#2 combine the airlines (also available from nycflights13) with the flights data in a single file
+data1<-merge(airlines,flights)
+```
+
+```{r}
+#3 save a file including only American Airlines (Carrier = AA) ordered by arr_delay
+flights_AA<- data1%>%
+  filter(carrier == "AA")%>%
+  arrange(arr_delay)
+  
+  write.table(flights_AA, file="flights_AA.txt")
+```
+
+```{r}
+#4- create boxplots of dep_delay by carrier (one boxplot for each carrier)
+library(ggplot2)
+ggplot(data1, aes(x=carrier, y=dep_delay))+
+  geom_boxplot(na.rm=TRUE)+
+  ggtitle("Boxplot of dep_delay by carrier")
+
+```
+
+```{r}
+#5- find what is the month with the highest arr_delay. Show this in a graph
+ggplot(data1,aes(x= month,y=arr_delay))+
+  geom_bar(stat="identity", na.rm= TRUE)+
+  scale_x_discrete(name="month",limits=c("1","2","3","4","5","6","7","8","9","10","11","12"))+
+  ylab("arrival delay in minutes")
+  ggtitle("Bar plot of arr_delay by month")
+```
+We can see that the month of July has the highest value in minutes of arrival delay.
