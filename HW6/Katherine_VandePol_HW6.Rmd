@@ -1,0 +1,106 @@
+---
+title: "Katherine_VandePol_HW6"
+author: "K. Vande Pol"
+date: "10/4/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Using the data flights from the package nycflights13, do the following:
+1- obtain the range, mean, and median of the variable “distance”.
+
+```{r}
+library(tidyverse)
+install.packages("nycflights13")
+library(nycflights13)
+
+head(flights)
+
+dist <- flights %>% 
+  summarise(
+    range = range(distance, na.rm = TRUE),
+    av = mean(distance, na.rm = TRUE),
+    med = median(distance, na.rm = TRUE)
+  )
+dist
+
+```
+The range of the variable "distance" is 17 to 7983, the mean is 1039.913, and the median is 872.
+
+
+
+2- combine the airlines (also available from nycflights13) with the flights data in a single file.
+
+```{r}
+
+combined <- merge(flights, airlines, by = "carrier")
+write.table(combined, file = "Combined airlines and flights data.csv")
+
+head(flights)
+head(airlines)
+
+head(combined)
+
+```
+
+
+3- save a file including only American Airlines (Carrier = AA) ordered by arr_delay.
+
+```{r}
+
+AA_only <- combined %>%
+  filter(carrier == "AA") %>% 
+  arrange(arr_delay)
+
+write.table(AA_only, file = "AA_only.csv")
+
+head(AA_only)
+
+```
+
+
+4- create boxplots of dep_delay by carrier (one boxplot for each carrier).
+
+```{r}
+
+dep_delay_box <- ggplot(flights, aes(x=carrier, y=dep_delay))+
+  geom_boxplot(na.rm =TRUE)+
+  ggtitle("Depart Delays by Carrier")+
+  labs(x = "Carrier", y = "Depart Delay (min)")
+
+
+dep_delay_box
+
+```
+
+
+5- find what is the month with the highest arr_delay. Show this in a graph.
+
+Averaging each month's arrival delays:
+```{r}
+
+Av_arr_delay <- select(combined, arr_delay, month) %>%
+  na.omit() %>%
+  group_by(month) %>% 
+  summarize(mean_arr_delay = mean(arr_delay))
+
+Av_arr_delay
+
+```
+
+
+Plotting the average delays for each month as a column chart:
+```{r}
+p = ggplot(Av_arr_delay, aes(x = month, y = mean_arr_delay)) +
+  geom_col(width = 0.8) +
+  ggtitle('Arrival Delays by Month') + 
+  labs(x = 'Month', y = 'Arrival Delays (min)') +
+  scale_x_discrete(name="Month", limits = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"))
+
+p
+```
+The month with the greatest average delay time is July.
+

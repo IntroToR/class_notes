@@ -9,7 +9,6 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-#Using the R example data “mtcars”, do the following (when possible, try using the options available on the tidyverse package):
 #1) Sort the dataset based on the variables “cyl” and “gear” (a single step, cyl is the first variable to be sorted and gear the second one).
 
 ```r
@@ -24,6 +23,7 @@ sortedmtcars <- arrange(mtcars, cyl, gear)
 ```r
 mtcars_model <- rownames_to_column (sortedmtcars, var = "model")
 ```
+
 
 # 3) Replace the space of all the models by "_" (e.g., replace “Toyota Corona” by “Toyota_Corona”).
 

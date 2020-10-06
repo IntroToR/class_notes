@@ -1,0 +1,78 @@
+---
+title: "Homework_6"
+author: "Dylan Guenzburger"
+date:
+ "10/5/2020"
+output: html_document
+---
+
+install.packages("nycflights13")
+library(nycflights13)
+flight_data <- flights
+
+#1
+```{r}
+range(flight_data$distance)
+mean(flight_data$distance)
+median(flight_data$distance)
+```
+
+#2
+```{r}
+data("airlines")
+combine_airlines_flights <- merge(flights, airlines)
+write.table(combine_airlines_flights, file = "Airline & Flight combo.csv")
+```
+
+#3
+```{r}
+American_airlines <- combine_airlines_flights %>%
+  filter(carrier == "AA") %>%
+  arrange(arr_delay) %>%
+write.table("American_flights.csv")
+```
+
+#4
+```{r}
+library(ggplot2)
+ggplot(combine_airlines_flights, aes(x=carrier, y=dep_delay))+ 
+  geom_boxplot()
+```
+
+#5
+```{r}
+ggplot(combine_airlines_flights, aes(month, arr_delay)) +
+  geom_point() +
+  scale_x_continuous(n.breaks = 12)
+```
+Highest indiviudal value is in month 1 for arr_delay
+```{r}
+mean_arr_delay <- combine_airlines_flights %>%
+  group_by(month) %>%
+  summarise(average_delay = mean(Average_delay, na.rm = TRUE))
+```
+I cannot get this summarize line to run correctly but at one point I saw month 7 was the highest before messing something up.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

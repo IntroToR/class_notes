@@ -1,0 +1,74 @@
+Using the data flights from the package nycflights13, do the following:
+
+```{r }
+#install.packages("nycflights13")
+library(nycflights13)
+library(tidyverse)
+
+
+
+data<-nycflights13::flights
+```
+
+1- obtain the range, mean, and median of the variable “distance”.
+
+```{r }
+range(data$distance, na.rm=T)
+
+mean(data$distance, na.rm=T)
+
+median(data$distance, na.rm=T)
+```
+
+2- combine the airlines (also available from nycflights13) with the flights data in a single file.
+
+```{r }
+data<-merge(data,(nycflights13::airlines))
+```
+
+if we need to save an actual file
+write.csv(data,"HW6_Q2.csv")
+3- save a file including only American Airlines (Carrier = AA) ordered by arr_delay.
+
+```{r }
+library(dplyr)
+
+AAonly<-filter(data,data$carrier=="AA")
+AAonly<-arrange(AAonly, desc(AAonly$arr_delay))
+
+
+mean(AAonly$arr_delay,na.rm=T)
+```
+
+if we need to save an actual file
+write.csv(AAonly,"HW6_Q3.csv")
+4- create boxplots of dep_delay by carrier (one boxplot for each carrier).
+
+```{r }
+library(ggplot2)
+
+ggplot(data,aes(x=carrier,y=dep_delay))+geom_boxplot()+(
+  labs(title="Airline Departure Delay", x="Carrier",y="Departure Delay (mins)"))
+```
+
+5- find what is the month with the highest arr_delay. Show this in a graph.
+
+```{r }
+arrd<-group_by(data,month)
+
+mpm<-arrd%>%summarize(mean=mean(arr_delay, na.rm=T))
+```
+
+keep the months in order on the x axis
+
+```{r }
+mpm$month<-factor(mpm$month,levels=c(1:12))
+
+ggplot(mpm,aes(x=month,y=mean))+geom_bar(stat="identity")+
+  labs(title="Arrival Delay By Month",x="Month",y="Arrival Delay (mins)")
+
+
+library(knitr)
+```
+
+spin(,precious=T,doc="")
