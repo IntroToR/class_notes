@@ -1,0 +1,56 @@
+---
+title: "suzanna_storms_wk6"
+author: "Suzanna Storms"
+date: "10/3/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This homework should be submitted as an R Markdown document saved with your name (e.g., samuel_fernandes.Rmd) and pushed to the HW6 folder on theclass_notes repository in the IntroToR GitHub by next Monday. All code used to get the answers should be provided as R chunks.
+
+Using the data flights from the package nycflights13, do the following:
+
+1- obtain the range, mean, and median of the variable “distance”.
+```{r}
+library(nycflights13)
+range_d <-range(flights$distance, ra.rm =TRUE)
+median_d <-median(flights$distance, ra.rm=TRUE)
+mean_d <- mean(flights$distance, ra.rm=TRUE)
+range_d
+median_d
+mean_d
+```
+2- combine the airlines (also available from nycflights13) with the flights data in a single file.
+
+```{r}
+library(nycflights13)
+library(dplyr)
+name_flights<-full_join(flights,airlines)
+```
+
+
+3- save a file including only American Airlines (Carrier = AA) ordered by arr_delay.
+```{r}
+AA_flights_arr <- arrange(name_flights,(arr_delay))
+
+filter(AA_flights_arr, carrier == "AA")
+```
+4- create boxplots of dep_delay by carrier (one boxplot for each carrier).
+
+```{r}
+library(ggplot2)
+dd_flights<- ggplot(data=name_flights, aes(x=carrier), y = dep_delay)
+dd_flights+ geom_boxplot()+ ggtitle("Departure delays by carrier") + coord_flip()
+
+```
+
+5- find what is the month with the highest arr_delay. Show this in a graph.
+```{r}
+ad_plot <- ggplot(data= name_flights, aes(x= month), y=arr_delay)
+ad_plot+ geom_histogram()+ ggtitle("Arrival delays by month")
+
+
+```
