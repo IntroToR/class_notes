@@ -66,7 +66,7 @@ Graph<- ggplot(highest_month, aes(x=month, y=Average_Delay))+
   geom_col()+
   ggtitle(" Arrival Delays Across All Carriers By Month")
 
-Graph
+Graph 
 
 ```
 
