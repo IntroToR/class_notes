@@ -34,53 +34,15 @@ attach(pheno)
 which.max(h4)
 ```
 
-#5a
+#5
 
 ```{r}
-attach(pheno)
-x<-mean(Y,na.rm = TRUE)
-while(x<4){print(x)}
+for(count in c("Y","M","h1","h2","h3","h4"){
+x<-mean(pheno[,count],na.rm = TRUE)
+print(x)
+}
+
 ```
-
-#5b
-```{r}
-attach(pheno)
-x<-mean(M,na.rm = TRUE)
-while(x<4){print(x)}
-```
-
-#5c
-```{r}
-attach(pheno)
-x<-mean(h1,na.rm = TRUE)
-while(x<4){print(x)}
-```
-
-
-#5d
-```{r}
-attach(pheno)
-x<-mean(h2,na.rm = TRUE)
-while(x<4){print(x)}
-```
-
-
-
-#5e
-```{r}
-attach(pheno)
-x<-mean(h3,na.rm = TRUE)
-while(x<4){print(x)}
-```
-
-
-#5f
-```{r}
-attach(pheno)
-x<-mean(h4,na.rm = TRUE)
-while(x<4){print(x)}
-```
-
 
 
 #6
@@ -88,6 +50,4 @@ while(x<4){print(x)}
 attach(pheno)
 
 pheno2<-pheno
-pheno2$Y<-as.character(pheno2$Y)
-pheno2[pheno=="2"]<-"0"
-pheno2$Y<-as.factor(pheno2$Y)
+pheno2$Y[pheno2$Y<2]<-0
