@@ -57,8 +57,8 @@ boxplots
 ```{r}
 
 highest_month<-select(combined, month, arr_delay) %>%
-  group_by(month)
-  summarise(Average_Delay = mean(arr_delay, na.rm = TRUE))
+  group_by(month)%>%
+  summarise(Average_Delay = mean(arr_delay, na.rm = TRUE), .group = 'keep')
   
 highest_arrival_delay_month<- which.max(highest_month$Average_Delay)
 
