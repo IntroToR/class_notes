@@ -27,6 +27,7 @@ median(flights$distance)
 ```{r}
 #2 combine the airlines (also available from nycflights13) with the flights data in a single file
 data1<-merge(airlines,flights)
+write.table(data1, file = "Combined airlines and flights data.csv")
 ```
 
 ```{r}
@@ -42,7 +43,7 @@ flights_AA<- data1%>%
 #4- create boxplots of dep_delay by carrier (one boxplot for each carrier)
 library(ggplot2)
 ggplot(data1, aes(x=carrier, y=dep_delay))+
-  geom_boxplot(na.rm=TRUE)+
+  geom_boxplot(na.rm=TRUE, shape=8,outlier.size = 0.5)+
   ggtitle("Boxplot of dep_delay by carrier")
 
 ```
