@@ -8,7 +8,7 @@ output: html_document
 
 ## Problem 1
 ```{r}
-mydata = read.delim('pheno.txt')
+mydata = read.table('pheno.txt', header = TRUE, sep = ' ')
 unique_genos = length(unique(mydata$GENO))
 paste('There are', unique_genos, 'unique GENO observations.')
 ```
@@ -16,15 +16,13 @@ paste('There are', unique_genos, 'unique GENO observations.')
 
 ## Problem 2
 ```{r}
-mydata = read.delim('pheno.txt')
 x = subset(mydata, range == 1)
-write.table(x)
+write.table(x, file = 'my_table')
 ```
 
 
 ## Problem 3
 ```{r}
-mydata = read.delim('pheno.txt')
 Ymin = min(mydata$Y, na.rm = TRUE)
 Ymax = max(mydata$Y, na.rm = TRUE)
 Yrange = Ymax - Ymin
@@ -40,7 +38,6 @@ paste('The ranges of Y, M and h4 are', Yrange,',', Mrange,'and,', h4range,'respe
 
 ## Problem 4
 ```{r}
-mydata = read.delim('pheno.txt')
 h4max = max(mydata$h4, na.rm = TRUE)
 mymatrix = as.matrix(mydata)
 maxrow = c()
@@ -68,11 +65,10 @@ for (i in 1:ncol(YMh_matrix)) {
 
 ## Problem 6
 ```{r}
-mydata = read.delim('pheno.txt')
 mymatrix = as.matrix(mydata)
 beforeY = mymatrix[,1:6]
 originalY = as.numeric(mymatrix[,7])
-afterY = as.numeric(mymatrix[,8:12])
+afterY = mymatrix[,8:12]
 newY = c()
 for (i in 1:length(originalY)) {
   newY[i] = originalY[i]
@@ -81,5 +77,5 @@ for (i in 1:length(originalY)) {
   }
   
 }
-pheno2 = cbind(beforeY,newY,afterY)
+pheno2 = cbind(beforeY, newY, afterY)
 ```
