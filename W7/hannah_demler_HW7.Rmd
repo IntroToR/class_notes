@@ -1,0 +1,76 @@
+---
+title: "HW7"
+author: "Hannah Demler"
+date: "10/6/2020"
+output: html_document
+---
+
+**1**  
+**Create histogram with h1, h2, h3, & h4**  
+
+```{r}
+#I first transformed the data into a long format where all the h values (h1, h2, h3, & h4) are in the same column named "h value"
+
+pheno1<-pivot_longer(pheno,c(h1,h2,h3,h4),names_to= "hs",values_to = "h value")
+
+# I then created a histogram of the h values and added fill colors corresponding to the different h measurements (h1-h4). I also increased the bins from 30 (default) to 40, and added titles to the plot, x axis, and legend
+
+ggplot(data=pheno1, aes(pheno1$`h value`, fill=pheno1$hs)) + 
+  geom_histogram(bins=40)+
+  xlab("h value")+
+  ggtitle("Frequencies of h values in pheno dataset")+
+  guides(fill=guide_legend(title="h measurements"))
+```
+
+**2**  
+**Create boxplot for each value of row and range using "Y" as response variable**
+```{r}
+#First, I rearranged the pheno dataset into a long format with the "row" and "range" values in the same column
+
+pheno2<-pivot_longer(pheno,c(range,row),names_to= "range_row",values_to = "range_row values")
+
+# I then created boxplots of "Y" for each value or range and row, and used the facet_wrap function to separate the plots for the range and row groups
+
+ ggplot(pheno2, aes(x=pheno2$`range_row values`, y=pheno2$Y))+
+  geom_boxplot(fill="blue", alpha= 0.2)+
+  xlab("Range and Row Groups")+
+  ylab("Y")+
+  ggtitle("Y in pheno dataset")+
+  theme_bw()+
+  facet_wrap(~pheno2$range_row, scales = "free_x")
+```
+
+**3**  
+**Calculate mean of each TAXA. Filter TAXA for means > 12. Create barplot with error bars (standard error 1)**  
+```{r}
+#I first calculated the mean "Y" for each TAXA group
+
+pheno%>%
+    group_by(TAXA)%>%
+    summarise_at(vars(Y),
+    list(name=mean))
+
+#Next I filtered the TAXA means to include only those with mean > 12
+
+means<- pheno%>%
+        group_by(TAXA)%>%
+        summarise_at(vars(Y),
+        list(name=mean))%>%
+        filter(name>12)
+
+# I created a barplot of the TAXA "Y" means > 12 with standard error bars of 1
+  #First I added a column to my "means" tibble including standard error of 1 for each mean
+n<- 13
+sd<- rep(1, each=n)
+means1<- means %>% add_column(sd)
+
+  #Next I created the barplot and added the error bars to represent + and - 1 for each mean
+ggplot(means1) +
+  geom_bar( aes(x=TAXA, y=name), stat="identity", fill="skyblue", alpha=0.7) +
+  geom_errorbar( aes(x=TAXA, ymin=name-sd, ymax=name+sd), width=0.4, colour="dark blue", size=1)+
+  xlab("TAXA")+
+  ylab("Y mean")+
+  ggtitle("TAXA groups with mean Y values greater than 12 ")
+```
+
+
