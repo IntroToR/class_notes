@@ -1,0 +1,55 @@
+---
+title: "AndreaDestHW7"
+author: "Andrea Dest"
+date: "10/6/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+##load libraries
+library(tidyverse)
+library(data.table)
+library(ggplot2)
+library(plyr)
+##Get data from GitHub
+dat <- fread("https://raw.githubusercontent.com/IntroToR/class_notes/master/HW4/pheno.txt", header = T, sep = " ")
+```
+__Question 1__
+```{r}
+##histogram with h1, h2, h3, and h4
+hdata <- filter(dat[,9:12])
+hdata <- pivot_longer(hdata, h1:h4, names_to = "names", values_to = "values")
+ggplot(hdata, aes(names, values)) + geom_histogram(stat="identity", position='dodge') + xlab("H number") +ylab("Value of H") + ggtitle("H vaules")
+```
+
+
+__Question 2__
+```{r}
+##create a boxplot of row and range (use Y variable)
+##use facet option
+rowrange <- pivot_longer(dat, row:range, names_to = "type", values_to = "values")
+rowrangeplot <- ggplot(rowrange, aes(x=factor (round_any(values,1)), y=Y)) + geom_boxplot() + ggtitle("Values of Y by Row and Range") + ylab("Y value") + xlab("Values")
+rowrangeplot + facet_wrap(~type, scales ="free", ncol = 10)
+```
+
+
+__Question 3__
+```{r}
+##calculate the mean of Y for each TAXA
+mean_data <- dat %>%
+  select(TAXA, Y) %>%
+  group_by(TAXA) %>%
+  summarise_at(vars(Y),
+    list(mean_y=mean)) %>%
+  #filter the TAXA with a mean greater than 12
+  filter(mean_y >12)
+##create a barplot with the error bar on top of it (use the value 1 as the standard error).
+  meanplot <- ggplot(mean_data,aes(x= TAXA, y=mean_y)) + geom_bar(position=position_dodge(),  stat="identity") + geom_errorbar(aes(ymin=mean_y-1, ymax=mean_y+1)) + ggtitle("Mean of Y for each TAXA") + ylab("Mean of Y")
+meanplot + facet_wrap(~TAXA, ncol =5, scales ="free")
+```
+
