@@ -1,0 +1,61 @@
+---
+title: "HW7"
+author: "Shujie_Wu"
+date: "2020/10/8"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Setting up
+```{r}
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+pheno<-read.table("https://raw.githubusercontent.com/IntroToR/class_notes/master/HW4/pheno.txt", header = T, sep = " ")
+```
+
+## 1
+```{r}
+# Combine the four variables into one
+p1<-pheno%>%
+  pivot_longer(c("h1","h2","h3","h4"),names_to = "measurements", values_to = "value")
+# Make the histogram plot
+ggplot(p1, mapping = aes(x = measurements, y = value))+
+  ggtitle("Question 1")+
+  geom_histogram(stat = "identity", fill = "grey")+
+  xlab("Measurements")+ylab("Value")
+```
+
+## 2
+```{r}
+# Combine the two variables into one
+p2<-pheno%>%
+  pivot_longer(c("row","range"), names_to = "rr", values_to = "value") 
+# Make the graph
+ggplot(p2,mapping = aes(x = value, y = Y))+
+  geom_boxplot(aes(group = cut_width(value, 1)),color = "grey", fill = "black")+
+  ggtitle("Question 2")+
+  xlab("value")+ylab("Y")+
+  facet_wrap(vars(rr), scales = "free_x")
+```
+
+## 3
+```{r}
+# Make a table of mean Y for each TAXA and filter with mean greater than 12
+mean<-pheno%>%
+  group_by(TAXA)%>%
+  summarise(mean = mean(Y))%>%
+  filter(mean>12)
+# Make the graph
+ggplot(mean, mapping = aes(x = TAXA, y = mean, ymin = mean-1, ymax = mean+1))+
+  geom_bar(stat = "identity")+
+  ggtitle("Question 3")+
+  labs(y = "Mean of Y", x = "TAXA")+
+  theme(axis.text.x=element_text(angle =90, vjust = 0.5))+
+  geom_errorbar()
+```
+
+
