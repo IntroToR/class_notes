@@ -34,18 +34,6 @@ a <- ggplot(refpheno_long, aes(x= measurement)) +
   scale_fill_discrete(name = "Legend", labels = c("h1", "h2", "h3", "h4"))
 a
 
-#Coloring observations according to h#
-h1_meas <- refpheno_long %>%
-  filter(hnumber == "h1")
-
-h2_meas <- refpheno_long %>%
-  filter(hnumber == "h2")
-
-h3_meas <- refpheno_long %>%
-  filter(hnumber == "h3")
-
-h4_meas <- refpheno_long %>%
-  filter(hnumber == "h4")
 ```
 
 2) Using the variable "Y" as the response variable, create a boxplot for each value of row and range. Make one plot for row and another plot for range using a facet option.
@@ -57,7 +45,7 @@ ggplot(long_pheno, aes(x=as.factor(Range_and_Row_Y), y=Y))+
   ggtitle("Measurements of Y by Range and Row Numbers")+
   labs(x="Range or Row", y="Y Measurement")+
   theme(axis.text.x=element_text(angle=90, hjust=1))+
-  facet_wrap(~Range_and_Row, nrow=2, ncol=1)
+  facet_wrap(~Range_and_Row, nrow=2, ncol=1, scale = "free_x")
 
 ```
 
