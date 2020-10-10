@@ -1,0 +1,82 @@
+---
+title: "WinstonWong_HW7.Rmd"
+author: "Winston Wong"
+date: "10/10/2020"
+output: html_document
+---
+Downloading needed packages and data
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+pheno <- read.table("pheno.txt", header = TRUE)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1) A histogram with h1, h2, h3, and h4. (Tip: you need to transform this data in a long format)
+```{r}
+#Converting pheno.txt into long format (2 ways)
+#Way 1
+pheno_long <- pivot_longer(pheno, cols=c("h1", "h2", "h3", "h4"), names_to="hnumber")
+
+#Way 2
+pheno_long <- gather(data = pheno, key = hnumber, value = measurement, h1:h4, factor_key = T)
+refpheno_long <- filter(pheno_long[,9:10])
+
+#Making a histogram using ggplot2
+a <- ggplot(refpheno_long, aes(x= measurement)) +
+  geom_histogram() +
+  ylab("value") +
+  ggtitle("Histogram of Measurements for h1, h1 ,h3, h4 ") +
+  scale_fill_discrete(name = "Legend", labels = c("h1", "h2", "h3", "h4"))
+a
+
+#Coloring observations according to h#
+h1_meas <- refpheno_long %>%
+  filter(hnumber == "h1")
+
+h2_meas <- refpheno_long %>%
+  filter(hnumber == "h2")
+
+h3_meas <- refpheno_long %>%
+  filter(hnumber == "h3")
+
+h4_meas <- refpheno_long %>%
+  filter(hnumber == "h4")
+```
+
+2) Using the variable "Y" as the response variable, create a boxplot for each value of row and range. Make one plot for row and another plot for range using a facet option.
+```{r}
+long_pheno <- pivot_longer(pheno, cols=c("range", "row"), names_to="Range_and_Row", values_to="Range_and_Row_Y")
+
+ggplot(long_pheno, aes(x=as.factor(Range_and_Row_Y), y=Y))+
+  geom_boxplot() +
+  ggtitle("Measurements of Y by Range and Row Numbers")+
+  labs(x="Range or Row", y="Y Measurement")+
+  theme(axis.text.x=element_text(angle=90, hjust=1))+
+  facet_wrap(~Range_and_Row, nrow=2, ncol=1)
+
+```
+
+3) Calculate the mean of each TAXA, filter the TAXA with a mean greater than 12, and create a barplot with the error bar on top of it (use the value 1 as the standard error)
+```{r}
+#calculating mean of each Taxa and filtering with a mean
+TAXA_mean <- pheno %>% group_by(TAXA) %>% summarize(mean = mean(Y, na.rm = T)) %>% filter(mean >12)
+
+#Alternatively we could use:
+TAXA_mean <- aggregate(x = pheno$Y, by = list(pheno$TAXA),FUN = mean) %>% filter(x > 12)
+TAXA_mean
+
+#Creating barplot with error bar
+bp <- ggplot(TAXA_mean, aes(x = TAXA, y = mean)) + 
+        geom_bar(stat = "identity") +
+        theme(axis.text.x=element_text(angle=90, hjust=1)) +
+        ggtitle("Average of Y for each TAXA") +
+        geom_errorbar(aes(ymin=mean-1, ymax=mean+1), colour="black", width=.1)
+```
+
+
+
