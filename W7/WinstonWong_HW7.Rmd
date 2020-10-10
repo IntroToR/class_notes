@@ -27,13 +27,11 @@ pheno_long <- gather(data = pheno, key = hnumber, value = measurement, h1:h4, fa
 refpheno_long <- filter(pheno_long[,9:10])
 
 #Making a histogram using ggplot2
-a <- ggplot(refpheno_long, aes(x= measurement)) +
-  geom_histogram() +
+a <- ggplot(refpheno_long, aes(x= hnumber, y = measurement)) +
+  geom_histogram(stat = "identity") +
   ylab("value") +
-  ggtitle("Histogram of Measurements for h1, h1 ,h3, h4 ") +
-  scale_fill_discrete(name = "Legend", labels = c("h1", "h2", "h3", "h4"))
+  ggtitle("Sum of Measurements for h1, h1 ,h3, h4 ")
 a
-
 ```
 
 2) Using the variable "Y" as the response variable, create a boxplot for each value of row and range. Make one plot for row and another plot for range using a facet option.
