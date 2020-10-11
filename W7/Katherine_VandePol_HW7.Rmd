@@ -38,7 +38,7 @@ HWdata3 <- pivot_longer(HWdata, row:range, names_to = "type", values_to = "value
 head(HWdata3)
 
 ggplot(HWdata3, aes(x = as.factor(values), y = Y)) + 
-  geom_boxplot() +
+  geom_boxplot(fill = "black", color = "gray") +
   ylab("Y") + xlab("values") +
   facet_wrap(~type, scales = "free")
 
