@@ -1,0 +1,61 @@
+---
+title: "Homework 7"
+author: "Matthew Runyon"
+date: "10/8/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+pheno_data<-read.table("https://raw.githubusercontent.com/IntroToR/class_notes/master/HW4/pheno.txt", head = T)
+library(tidyverse)
+```
+
+__Problem #1:__ Create a histogram with h1, h2, h3, and h4. (Tip: you need to transform this data into a long format.)
+
+Here I first create the data set `long_pheno_data` using the `pivot_longer()` function to combine all the individual `h1`, `h2`, `h3`, and `h4` observations into a single column. These values are denoted in the new column `value`, while the h observation that they came from is denoted in the new `h` column. I use these to satisfy the `aes()` function's arguments within the `ggplot()` function applied to the `long_pheno_data` data frame, yielding the graph below.
+```{r}
+long_pheno_data<-pivot_longer(pheno_data, cols=c("h1", "h2", "h3", "h4"), names_to="h")
+ggplot(long_pheno_data, aes(x=h, y=value))+
+  geom_histogram(stat="identity", col="cyan")+
+  ggtitle("h Values of Pheno Date")+
+  labs(x="h Measurement Number", y="Cumulative h Value")+
+  theme(panel.grid=element_blank())
+```
+
+__Problem #2:__ Using the variable "Y" as the response variable, create a boxplot for each value of row and range. Make one plot for row and another plot for range using a facet option.
+
+I first created a new data set called `long_pheno_data_2` from the original `pheno_data` data frame. Here, I used the `pivot_longer()` function to combine all the values of range and row into one column. Then, I used this `long_pheno_data_2` in the `ggplot()` function. To get the grouping right so that it would group by either range or row, within the `aes()` function I specifically converted these numeric values to factors. Finally, I used `facet_wrap()` to split the data into two plots, by either range or by row. So that they wouldn't be as scrunched together, I set the argument to return two rows of graphs in one column rather than one row in two columns using the `ncol=` and `ncol=` options. Also, so that they would fill out the entire chart area appropriately, I set the `scales=` option to `"free_x"` so that the row axis would just go to 24 instead of 40 like the range axis.
+```{r}
+long_pheno_data_2<-pivot_longer(pheno_data, cols=c("range", "row"), names_to="range_and_row", values_to="range_and_row_value")
+
+ggplot(long_pheno_data_2, aes(x=as.factor(range_and_row_value), y=Y))+
+  geom_boxplot(color="black", fill="yellow")+
+  ggtitle("Boxplots of Y by Range and Row Numbers")+
+  labs(x="Range or Row Value", y="Y Value")+
+  theme(panel.grid=element_blank(),axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.95))+
+  facet_wrap(~range_and_row, scales="free_x", nrow=2, ncol=1)
+```
+
+__Problem #3:__ Calculate the mean of each TAXA, filter the TAXA with a mean greater than 12, and create a barplot with the error bar on top of it (use the value 1 as the standard error).
+
+I first used the `group_by()` function for `TAXA` within the `long_pheno_data` data frame and obtained the means for each taxa using the `summarise()` function, finally filtering to only those taxa whose means were greater than 12 using the `filter()` function. All of these actions were piped together to create the new data frame `means`. I also used the `round()` function to round to two decimal places on each of these means. Then, I used this `means` data frame to create the graph below with `ggplot()`. Error bars were added using the `geom_pointrange()` function. These show a standard error bar of plus or minus one based off of the mean, as seen in the `ymin=` and `ymax=` arguments in this line. I also included the actual mean value on the plot using the `geom_text()` function.
+```{r}
+means<-long_pheno_data%>%
+  group_by(TAXA)%>%
+  summarise(mean=mean(Y))%>%
+  filter(mean>12)
+means$mean<-round(means$mean, 2)
+
+ggplot(means, aes(x=TAXA, y=mean))+
+  geom_col(color="black", fill="orange")+
+  ggtitle("Means of Taxa with Y > 12")+
+  labs(x="Taxa", y="Mean Y Value")+
+  theme(panel.grid=element_blank(),axis.text.x = element_text(angle = 45, hjust = 1, vjust = 0.95))+
+  geom_pointrange(aes(ymin=(mean-1), ymax=(mean+1)))+
+  geom_text(data=means, aes(x=TAXA, y=mean, label=mean), nudge_y=-2)
+```
+

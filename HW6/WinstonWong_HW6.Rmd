@@ -5,6 +5,9 @@ date: "10/3/2020"
 output: html_document
 ---
 ```{r}
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
 library(nycflights13)
 data(flights)
 as.data.frame(flights)
@@ -45,8 +48,8 @@ amerAir3 <- amerAir2[order(amerAir2$arr_delay),]
 write.table(amerAir3, file = "amerAir3.txt", sep = "\t",row.names = TRUE)
 
 #Alternatively we could use the pipe function
-amerAir <- airlinesflights_merge %>% select(carrier, arr_delay) %>% filter(carrier == "AA") 
-amerAir_ordered <- amerAir[order(amerAir$arr_delay),]
+amerAir <- airlinesflights_merge %>% select(carrier, arr_delay) %>% filter(carrier == "AA") %>% arrange(arr_delay)
+
 
 ```
 
@@ -59,15 +62,31 @@ boxplot(dep_delay~carrier,data=airlinesflights_merge, main="dep_delay Data by Ca
    
 #Boxplot using ggplot2
 as.factor(airlinesflights_merge$dep_delay)
-ggplot(airlinesflights_merge, aes(x = carrier, y = dep_delay)) + 
+ggplot(airlinesflights_merge, aes(x = carrier, y = dep_delay)) +
+   ylab("dep_delay (minutes)") +
+  ggtitle("dep_delay for each carrier") +
   geom_boxplot()
 ```
 
 #5 find what is the month with the highest arr_delay. Show this in a graph
 ```{r}
+#using ggplot2
+ggplot(airlinesflights_merge, aes(x = month, y = arr_delay)) +
+   scale_x_continuous(breaks = c(1:12)) +
+   ylab("arr_delay (minutes)") +
+   ggtitle("arr_delay for each month") +
+   geom_point() +
+   geom_point(data = maxarr_delay, color = "red")
+
+#from the graph we see that month 1 has the highest arr_delay value, looks to be greater than 1250 minutes
+# we can create a separate dataframe that contains the highest value and use it to highlight the point
+maxarr_delay <- airlinesflights_merge %>%
+   filter(arr_delay >= 1250)
+
+#Using base R
 highest_arr_delay <- boxplot(arr_delay~month, data = airlinesflights_merge,
    main="arr_delay Data by Carrier",
-   xlab="month", ylab="arr_delay")
+   xlab="month", ylab="arr_delay ("minutes")
 
 #from the plot we can see that month 1 has the highest arr_delay value
 

@@ -1,0 +1,68 @@
+---
+title: "HW_7"
+author: "Ethan Lamons"
+date: "10/10/2020"
+output: html_document
+---
+
+# Part 1
+
+```{r}
+library(tidyverse)
+library(ggdark)
+
+#Bringing in the data
+pheno <- read.table("/Users/lamon/Desktop/CPSC441/class_notes/HW4/pheno.txt", header = TRUE)
+
+#Modifying the data
+pheno.edit <- pheno %>%
+  na.omit(pheno[9:12]) %>%
+  pivot_longer(cols = c(h1, h2, h3, h4), names_to = "h", values_to = "value") %>%
+  select(h, value)
+
+#Creating the graph
+(h_plot <- ggplot(pheno.edit, aes(x = h, y = value)) +
+  geom_histogram(stat = "identity")) +
+  ggtitle("Histogram of h values")
+```
+
+# Part 2
+
+```{r}
+#modifying the data
+pheno_2 <- pheno %>%
+  na.omit(pheno[4, 5, 7]) %>%
+  select(row, range, Y) %>%
+  pivot_longer(cols = c(row, range), names_to = "rows_range", values_to = "rvalue")
+
+#Making the boxplots
+(Y_box <- ggplot(pheno_2, aes(as.factor(rvalue), Y)) +
+  geom_boxplot() +
+  facet_wrap(~rows_range, scale = "free_x") +
+  dark_mode()) +
+  labs(x = "rvalues") +
+  ggtitle("Y by rows and range")
+```
+
+# Part 3
+
+The question doesn't say what variable we are talking the mean of since we can't take the mean of TAXA, it is all characters. So I will assume you are talking about using Y for the mean.
+
+```{r}
+#Modifying the dataset to only inclue the wanted mean values
+pheno_3 <- pheno %>%
+  arrange(TAXA) %>%
+  select(TAXA, Y) %>%
+  na.omit(pheno_3[1:2]) %>%
+  pivot_wider(names_from = "TAXA", values_from = "Y", values_fn = {mean}) %>%
+  pivot_longer(cols = c(commercial_hybrid:PI660632), names_to = "TAXA", values_to = "Y_mean") %>%
+  filter(Y_mean > 12)
+
+(TAXA_plot <- ggplot(pheno_3, aes(TAXA, Y_mean)) +
+  geom_bar(stat = "identity") +
+  geom_errorbar(aes(ymax = (Y_mean + 1), ymin = (Y_mean - 1)), color = "black"))
+
+
+
+```
+

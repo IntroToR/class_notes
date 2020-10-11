@@ -1,0 +1,91 @@
+---
+title: "Homework7"
+author: "Beau Barber"
+date: "10/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#Using the pheno.txt inside the HW4 folder, do the following:
+
+
+Some libraries we might need
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(tidyr)
+library(data.table)
+library(pracma)
+```
+
+Get the data!
+```{r}
+pheno_dat<-read.table("https://raw.githubusercontent.com/IntroToR/class_notes/master/HW4/pheno.txt", head = T)
+pheno_dat
+```
+
+
+
+
+
+## 1) A histogram with h1, h2, h3, and h4. (Tip: you need to transform this data in a long format)
+
+___First we need to transform this data into long format___
+```{r}
+pheno_long <- pheno_dat %>% pivot_longer(names_to = "h_num", cols = c("h1","h2","h3","h4"), values_to="h_value")
+head(pheno_long)
+```
+
+___Now to plot the histogram with h1, h2, h3, and h4___
+```{r}
+ggplot(data = pheno_long, aes(x=h_num,y=h_value, color=h_num))+
+  geom_histogram(stat="identity")
+```
+
+___2) Using the variable "Y" as the response variable, create a boxplot for each value of row and range. Make one plot for row and another plot for range using a facet option.___
+
+Ope, looks like we have to use pivot_longer() again
+```{r}
+#Hello pivot_longer, my friend.
+pheno_long2 <- pheno_dat %>% pivot_longer(names_to = "row_or_range", cols = c("row","range"))
+#I need you to pivot again
+#Because the data isn't in the right format
+#and I can't plot the graphs right without that
+head(pheno_long2)
+```
+
+
+
+```{r}
+ggplot(data = pheno_long2, aes(y=Y,x=as.factor(value)))+
+  geom_boxplot(fill="black",color="grey")+
+  facet_wrap(~row_or_range,scales="free_x", ncol=2)+
+  theme(axis.text.x = element_text(angle = 90, size=7))+
+  xlab("Value")
+#BUT HOW FOR THE LOVE STATS HOW DO YOU CHANGE THE X-AXIS INTERVAL FOR EACH
+```
+
+
+___3) Calculate the mean of each TAXA, filter the TAXA with a mean greater than 12, and create a barplot with the error bar on top of it (use the value 1 as the standard error).___
+
+Assuming Y is the value we'll be taking the mean of
+```{r}
+pheno_dat %>% 
+  group_by(TAXA) %>%
+  summarise(taxa_mean=mean(Y)) %>%
+  filter(taxa_mean>12) %>%
+  ggplot(aes(x=as.factor(TAXA),y=taxa_mean))+
+  geom_bar(stat="identity")+
+  geom_errorbar(aes(ymin=taxa_mean-1, ymax=taxa_mean+1), width=.5, position=position_dodge(.9))+ 
+  theme(axis.text.x = element_text(angle = 90, size=9))+
+  xlab("TAXA")
+
+```
+
+
+The folder HW7 contains one example graph for each question.
