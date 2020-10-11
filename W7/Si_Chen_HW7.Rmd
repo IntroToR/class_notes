@@ -1,0 +1,47 @@
+---
+title: "HW7"
+author: "Si Chen"
+date: "10/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+data<-read.table("https://raw.githubusercontent.com/IntroToR/class_notes/master/HW4/pheno.txt", head = T)
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+```
+
+```{r}
+#1
+data2 <- data%>%
+  pivot_longer(c("h1", "h2", "h3", "h4"), names_to = "measurement",   values_to="value")
+plot1<-ggplot(data2, aes(x=measurement,y=value))+
+      geom_histogram(stat="identity")
+plot1
+```
+
+```{r}
+#2
+data3<-data%>%
+  pivot_longer(c("row","range"),names_to="row_range",values_to="value")
+data3%>%
+  ggplot(aes(x=as.factor(value),y=Y))+
+  geom_boxplot(color="grey",fill="black")+xlab("values")+
+  facet_wrap(vars(row_range),scales="free_x")
+```
+
+```{r}
+#3
+Mean_Taxa<- data%>%
+        group_by(TAXA)%>%
+        summarise(mean=mean(Y))%>%
+        filter(mean>12)
+        
+Mean_Taxa%>% ggplot(aes(x=TAXA,y=mean))+
+        geom_bar(stat="identity")+ ylab("mean_of_Y")+
+        theme(axis.text.x=element_text(angle =90, vjust = 0.5))+
+        geom_errorbar(aes(ymin=mean-1,ymax=mean+1))
+```
+

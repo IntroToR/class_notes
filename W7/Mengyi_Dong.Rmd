@@ -1,0 +1,66 @@
+---
+title: "HW7_Mengyi Dong"
+author: "MengyiDong"
+date: "10/6/2020"
+output: html_document
+---
+
+```{r}
+## Load the phenodata.txt and tidyverse package.
+library(tidyverse)
+getwd()
+phenodata <- read.delim("/Users/Mengyi/Box/CPSC441 R programming/class_notes/HW4/pheno.txt", header = TRUE, sep = " ")
+```
+
+```{r}
+## 1) A histogram with h1, h2, h3, and h4. (Tip: you need to transform this data in a long format)
+## First, transform h1, h2, h3, h4 into one column.
+tidypheno <- data.frame(phenodata) %>% 
+  pivot_longer(c("h1","h2","h3","h4"),names_to = "h", values_to = "hs" )
+tidypheno
+## Second, plot and format histogram.
+h_histogram <- ggplot(tidypheno,aes(x = h, y = hs)) +
+  geom_histogram(stat = "identity")+
+  ggtitle("Histogram of h") + 
+  xlab("h") + 
+  ylab("value")
+ggsave("Ex1_h_histogram.png")
+```
+
+```{r}
+## 2) Using the variable "Y" as the response variable, create a boxplot for each value of row and range. Make one plot for row and another plot for range using a facet option.
+## First, transform range and row columns to one "type" column, and set the values for row and range as charactor.
+phenotype <- phenodata[,4:7] %>%
+  pivot_longer(c("range","row"),names_to = "type", values_to = "value")
+phenotype$value <- as.factor(phenotype$value)
+## Second, making and formatting the boxplot: format the x axis interval to 5 and display the range and row boxplots side by side.
+typeplot <- ggplot(phenotype,aes(value, Y))+
+  geom_boxplot(colour = "cadetblue4", fill = "aquamarine") +
+  theme_bw() +
+  scale_x_discrete("value", seq(0, 40, by =5)) +
+  facet_wrap(~type,scale = "free_x", ncol=2)
+ggsave("Ex2_typeplot.png")
+```
+
+```{r}
+## 3) Calculate the mean of each TAXA, filter the TAXA with a mean greater than 12, and create a barplot with the error bar on top of it (use the value 1 as the standard error).
+## First, calculate the mean for each TAXA using the group_by and summarise_at function.
+phenotaxa <- phenodata %>%
+  group_by(TAXA) %>%
+  summarise_at(vars(Y),funs(mean(.,na.rm = TRUE)))
+phenotaxa 
+## Second, filter for mean of Y > 12.
+Ygt12 <- phenotaxa %>% 
+  filter(Y > 12)
+## Third, generate the barplot with error bar above the box, and format label layout. 
+taxaplot <- ggplot(Ygt12,aes(TAXA,Y, ymin = Y, ymax = Y + 1)) +
+  geom_bar(stat = "identity", colour = "black", fill = "yellow") +
+  geom_errorbar(position = position_dodge(), colour = "black") +
+  xlab("TAXA") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+  ylab("mean Y") +
+  ggtitle("TAXA with Y greater than 12") +
+  theme(plot.title = element_text(hjust = 0.5))
+ggsave("Ex3_taxaplot.png")
+```
+
