@@ -1,0 +1,74 @@
+---
+title: "HW7"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+#1
+```{r}
+df<-read.table("https://raw.githubusercontent.com/IntroToR/class_notes/master/HW4/pheno.txt", head = T)
+library(tidyverse)
+longo<-pivot_longer(df, cols=c("h1", "h2", "h3", "h4"), names_to="h")
+ggplot(longo, aes(x=h, y=value))+
+geom_histogram(stat="identity")+
+theme(panel.grid=element_blank())+
+labs(y="Value",x="Measurement")
+```
+#2
+
+```{r}
+library(tidyverse)
+df_2<-df%>%
+pivot_longer(c("row","range"), names_to = "names", values_to = "value") 
+ggplot(df_2,mapping = aes(x = value, y = Y))+
+geom_boxplot(aes(group = cut_width(value, 1)))+
+facet_wrap(vars(names), scales = "free_x")+
+labs(y="Y",x="values")
+```
+#3
+```{r}
+library(tidyverse)
+df_3<-df%>%
+group_by(TAXA)%>%
+summarise(mean = mean(Y))%>%
+filter(mean>12)
+ggplot(df_3,aes(y = mean, x = TAXA, ymin = mean-1, ymax = mean+1))+
+geom_bar(stat = "identity")+
+theme(axis.text.x=element_text(angle =90, hjust=1, vjust = 0.5))+
+geom_errorbar()+
+labs(y = "mean", x = "TAXA")
+
+```
+
+
+
+
+
+
+
+
