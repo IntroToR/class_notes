@@ -52,7 +52,7 @@ G<-D%>%
 H <- ggplot(G, aes(TAXA,average))+
   geom_bar(stat = "identity")+
   geom_errorbar(aes(ymax = average+1, ymin = average-1))+
-  theme(axis.text.x = element_text(angle = 90))
+  theme(axis.text.x = element_text(angle = 90)) 
 
 H
 
