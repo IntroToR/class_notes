@@ -1,0 +1,51 @@
+---
+title: "Leo_dagostino_HW7"
+author: "Leo D'Agostino"
+date: "October 12, 2020"
+output: html_document
+---
+
+```{r}
+pheno <- read.table("HW4/pheno.txt", header = TRUE)
+```
+
+Question 1
+```{r}
+pheno2 <- pivot_longer(pheno, cols = c("h1", "h2", "h3", "h4"), names_to = "H")
+
+ggplot(pheno2, aes(x = H, y = value)) +
+  geom_histogram(stat = "identity") +
+  labs(x = "H#", y = "value")
+```
+
+Question 2
+```{r}
+pheno3 <- pivot_longer(pheno, cols=c("range", "row"), names_to="type", values_to="values")
+
+ggplot(pheno3, aes(x = as.factor(values), y = Y)) +
+  geom_boxplot() +
+  labs(x = "Range or Row", y = "Values") +
+  facet_wrap(~type, scales = "free_x")
+```
+
+Question 3
+```{r}
+pheno4 <- pheno2 %>%
+  group_by(TAXA) %>%
+  summarise(mean = mean(Y)) %>%
+  filter(mean > 12)
+
+ggplot(pheno4, aes(x = TAXA, y = mean)) +
+  geom_bar(stat = "identity") +
+  labs(x = "TAXA", y = "Means") +
+  geom_errorbar(aes(ymin = mean-1, ymax = mean+1)) +
+  theme(axis.text.x = element_text(angle = 30, hjust = 1))
+```
+
+  
+  
+  
+  
+  
+  
+  
