@@ -37,7 +37,6 @@ pheno_data_long
 
 ```{r}
 #Creating the histogram 
-
 hist_var_h <- ggplot(pheno_data_long, aes(h, values)) + 
   geom_histogram(stat = "identity")+
   labs(x = "Measurement" , y = "Value")+
