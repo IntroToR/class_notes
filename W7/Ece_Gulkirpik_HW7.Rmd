@@ -1,0 +1,93 @@
+---
+title: "Ece Gulkirpik_HMW 7"
+author: "Ece Gulkirpik"
+date: "10/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Using the pheno.txt inside the HW4 folder, do the following:
+
+```{r}
+#First, I started with getting the data and necessary packages for further questions:
+
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+pheno_data <- read.table("HW4/pheno.txt", header = TRUE)
+pheno_data
+```
+
+#1) A histogram with h1, h2, h3, and h4. (Tip: you need to transform this data in a long format)
+
+```{r}
+#Transforming the "pheno_data" to a long format and creating a new data set called " pheno_data_long"
+
+pheno_data_long <- pivot_longer(
+  pheno_data,
+  cols = c("h1","h2","h3","h4"),
+  names_to = "h",
+  values_to = "values"
+)
+pheno_data_long
+```
+
+```{r}
+#Creating the histogram 
+
+hist_var_h <- ggplot(pheno_data_long, aes(h, values)) + 
+  geom_histogram(stat = "identity")+
+  labs(x = "Measurement" , y = "Value")+
+  ggtitle("Histogram of h")
+hist_var_h
+```
+
+#2) Using the variable "Y" as the response variable, create a boxplot for each value of row and range. Make one plot for row and another plot for range using a facet option.
+```{r}
+#First, I transformed the data again and created a new dataset called "pheno_data_rr"
+
+pheno_data_rr <- pivot_longer(
+  pheno_data, 
+  cols = c("range", "row"), 
+  names_to = "range_row", 
+  values_to="value")
+pheno_data_rr$value <- as.factor(pheno_data_rr$value)
+pheno_data_rr
+
+#Next, I made one boxplot containing one plot for row and another plot for range
+
+boxp_var_y <- ggplot(pheno_data_rr,aes(value,Y))+
+  geom_boxplot(alpha=0.2)+
+  scale_x_discrete("value", seq(0,40,by=5))+
+  facet_wrap(~range_row,scale="free_x", ncol=2)
+boxp_var_y
+```
+
+#3) Calculate the mean of each TAXA, filter the TAXA with a mean greater than 12, and create a barplot with the error bar on top of it (use the value 1 as the standard error).
+
+```{r}
+#First, I grouped the data by TAXA variable, and calculated the mean of each TAXA. Finally, I filtered the TAXA with a mean greater than 12. I used pipe function to run all these function at once.
+
+pheno_data_taxa <- pheno_data %>%
+  group_by(TAXA) %>%
+  summarise(mean=mean(Y, na.rm=T)) %>%
+  filter(mean > 12)
+pheno_data_taxa
+
+#Next, I created the barplot with the error bars using geom_bar() and geom_errorbar() functions
+
+taxa_bp <- ggplot(pheno_data_taxa, aes(TAXA, mean))+
+  geom_bar(stat ="identity")+
+  geom_errorbar(aes(ymin = mean-1, ymax = mean+1), width=0.5, colour="gray", size=2)+
+  xlab("TAXA")+
+  ylab("mean")+
+  theme(axis.text.x=element_text(angle=90, size=9))
+taxa_bp
+  
+```
+
+
+
