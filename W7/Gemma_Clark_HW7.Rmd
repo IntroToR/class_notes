@@ -1,0 +1,73 @@
+---
+title: "Gemma Clark HW 7"
+author: "Gemma Clark"
+date: "Fall 2020"
+output: html_document
+---
+
+## Preparation
+```{r}
+mydata = read.table('~/Box Sync/Classes/CPSC 441 R/class_notes/HW4/pheno.txt', header = TRUE, sep = ' ')
+library(data.table)
+library(tidyverse)
+```
+
+
+
+## Problem 1: Make a histogram with h1, h2, h3, and h4
+```{r}
+# organize data
+heightdata = pivot_longer(mydata, c('h1', 'h2', 'h3', 'h4'), names_to = 'height_group', values_to = 'height')
+
+# create graph
+ggplot(heightdata, aes(height_group, height)) + 
+  # plot histogram
+  geom_histogram(stat = 'identity',  color = 'green') +
+  # add labels
+  labs(title = 'Histogram of Plant Height', x = 'Height Group', y = 'Plant Height')
+
+```
+
+
+## Problem 2: Using the variable Y as the response variable, create a boxplot for each value of row and range (one plot for row and one plot for range)
+```{r}
+# organize data
+ydata = pivot_longer(mydata, c('range', 'row'), names_to = 'range_row', values_to = 'value')
+
+# create graph
+ggplot(ydata, aes(as.factor(value), Y)) +
+  # create boxplots
+  geom_boxplot(color = 'blue', outlier.color = 'red', outlier.shape = 18) +
+  # add labels
+  labs(title = 'Boxplots of Biomass Yield', x = 'values', y = 'Biomass Yield') +
+  # clean up the x axis 
+  scale_x_discrete(name = 'values', breaks = seq(0,40, by = 10)) +
+  # facet option to make one plot for row and one for range
+  facet_wrap(~range_row, scales='free', nrow = 1, ncol = 2)
+
+```
+
+
+## Problem 3: Calculate the mean of each TAXA, filter the TAXA with a mean greater than 12, and create a barplot with the error bar on top of it (use the value 1 as the standard error)
+```{r}
+taxamean = mydata %>%
+  # of each taxa
+  group_by(TAXA) %>%
+  # calculate mean
+  summarise(ave = mean(Y, na.rm = TRUE)) %>%
+  # filter taxa with mean greater than 12
+  filter(ave > 12)
+
+
+# Create graph 
+ggplot(taxamean, aes(x = TAXA, y = ave,  ymin = ave - 1, ymax = ave + 1)) + 
+  # create bar chart of mean data
+  geom_bar(stat = 'identity', color = 'magenta', fill = 'yellow') +
+  # add error bars on top
+  geom_errorbar() +
+  # add labels
+  labs(title = 'Biomass Yield by Taxa', x = 'TAXA', y = 'Mean Biomass Yield') +
+  # Rotate x axis labels
+  theme(axis.text.x = element_text(angle = 90))
+  
+```
