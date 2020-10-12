@@ -1,0 +1,72 @@
+---
+title: "Grace_Tan_HW7"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(data.table)
+library(ggplot2)
+library(dplyr)
+
+pheno_data <-fread("https://raw.githubusercontent.com/IntroToR/class_notes/master/HW4/pheno.txt", header = T, sep = " ")
+```
+
+1) A histogram with h1, h2, h3, and h4. (Tip: you need to transform this data in a long format)
+
+I decided to create two types of histograms with the data
+```{r}
+h_data <- pheno_data %>%
+  select(h1, h2, h3, h4) %>%
+  pivot_longer(cols = 1:4, names_to = "h", values_to = "values")
+
+ggplot(h_data, aes(values, na.rm = TRUE)) +
+  geom_histogram(bins = 50, aes(y = stat(count))) +
+  ggtitle("Histogram of Values of h1, h2, h3, and h4") +
+  labs(x = "Values", y = "Count")
+```
+
+The second kind is the same as the Example_1 image, and is the proper answer to this question.
+
+```{r}
+ggplot(h_data, aes(x=h, y=values))+
+  geom_histogram(stat="identity")+
+  ggtitle("Cumulative Values of h data")+
+  labs(x = "h value", y="Cumulative Value")
+```
+
+2) Using the variable "Y" as the response variable, create a boxplot for each value of row and range. Make one plot for row and another plot for range using a facet option.
+
+```{r}
+box_data <- pheno_data %>%
+  select(range, row, Y) %>%
+  pivot_longer(cols = 1:2, names_to = "row_range", values_to = "values")
+
+ggplot(box_data, aes(x = values, y = Y)) +
+  geom_boxplot(aes(group = cut_width(values, 1))) +
+  facet_wrap(vars(row_range)) +
+  labs(x="Values of Row and Range", y="Y Values")
+```
+
+3) Calculate the mean of each TAXA, filter the TAXA with a mean greater than 12, and create a barplot with the error bar on top of it (use the value 1 as the standard error).
+
+```{r}
+by_TAXA <- pheno_data %>% 
+  group_by(TAXA)
+
+TAXA_means <- by_TAXA %>%
+  summarise(Y = mean(Y)) %>%
+  filter(Y>12)
+
+ggplot(TAXA_means, aes(x = TAXA, y = Y)) +
+  geom_bar(stat = "identity") +
+  ggtitle("Y Means By TAXA", "Means > 12") +
+  theme(axis.text.x=element_text(angle = 40, hjust=1)) +
+  labs(x = "Taxa", y = "Y Mean") +
+  geom_errorbar(aes(ymin=Y-1, ymax=Y+1), width = 0.2)
+  
+```
