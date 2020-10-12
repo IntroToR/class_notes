@@ -1,0 +1,60 @@
+---
+title: "steven_krauklis_HW7"
+author: "skrauklis"
+date: "10/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#getting started w/ data and packages
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+library(data.table)
+
+pheno<-read.table("HW4/pheno.txt",sep="",header=T)
+```
+
+#1) A histogram with h1, h2, h3, and h4. (Tip: you need to transform this data in a long format)
+```{r}
+longp<-pheno%>%
+  pivot_longer(names_to="htype",cols=c("h1","h2","h3","h4"),
+               values_to="hval")
+
+ggplot(longp,aes(x=htype, y=hval))+geom_histogram(stat="identity")
++labs(x="H type", Y="H Value")
+```
+
+#2) Using the variable "Y" as the response variable, create a boxplot '
+#for each value of row and range. Make one plot for row
+#and another plot for range using a facet option.
+```{r}
+lp2<-pivot_longer(pheno, cols=c("range", "row"),
+                          names_to="range_or_row", values_to="rr_value")
+
+ggplot(data = lp2, aes(x=as.factor(rr_value),y=Y))+
+  geom_boxplot(fill="blue",color="black")+
+  labs(x="Row/Range Value",y="Y")
+```
+
+#3) Calculate the mean of each TAXA, filter the TAXA with a mean greater than 12
+  #, and create a barplot with the error bar on top of it 
+  #(use the value 1 as the standard error).
+```{r}
+Ymean<-pheno%>%
+  group_by(TAXA)%>%
+  summarize(mean=mean(Y,na.rm=T))%>%
+  filter(mean>12)
+
+#quick check
+#filter(pheno,pheno$TAXA=="NSL102169")
+#(7.809178+5.712128)/2
+
+ggplot(Ymean,aes(x=TAXA,y=mean))+geom_bar(stat="identity")+
+  geom_errorbar(aes(ymin=mean-1,ymax=mean+1))+
+  theme(axis.text.x=element_text(angle = 90, size=10))
+```
