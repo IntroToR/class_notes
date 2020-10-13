@@ -33,7 +33,7 @@ ggplot(transformed_pheno, aes(x=H_Group, y=Value))+
 ```
 
 
-
+QUESTION 2:
 ```{r}
 # transform data
 boxplot_pheno <- pivot_longer(pheno, c('range','row'), names_to = 'RangeRow', values_to = 'Value2')
