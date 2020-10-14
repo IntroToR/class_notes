@@ -1,0 +1,84 @@
+---
+title: "HW7"
+author: "Keith Ehnle"
+date: "10/12/2020"
+output: html_document
+---
+
+```{r}
+
+A <-read.table(file.choose("pheno.txt"), header=TRUE)
+library(tidyverse)
+library(tidyr)
+library(ggplot2)
+library(dplyr)
+pheno<-pheno.txt
+
+```
+
+
+#1
+```{r}
+
+B <- pivot_longer(A, cols = c("h1", "h2", "h3", "h4"), names_to = "height", values_to = "meters")
+C<- ggplot(B, aes( height, meters)) +
+  geom_histogram(stat ="identity")
+C
+
+```
+
+#2
+```{r}
+
+D<- pivot_longer(B, cols = c("range", "row"), names_to = "range_row", values_to =  "ID")
+E<-ggplot(D, aes(as.factor(ID),Y))+
+  geom_boxplot()+
+  xlab("ID")+
+  facet_wrap(vars(range_row),scales = "free_x")
+E
+
+```
+
+#3
+```{r}
+
+options (dplyr.summarise.inform = FALSE)
+G<-D%>%
+  group_by(TAXA)%>%
+  summarise(average = mean(Y))%>%
+  filter(average>12)
+
+
+H <- ggplot(G, aes(TAXA,average))+
+  geom_bar(stat = "identity")+
+  geom_errorbar(aes(ymax = average+1, ymin = average-1))+
+  theme(axis.text.x = element_text(angle = 90)) 
+
+H
+
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

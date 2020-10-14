@@ -1,0 +1,69 @@
+---
+title: "Johana_Coronel_hmw7"
+author: "Johana Coronel"
+output: html_document
+---
+Setting up the document and data
+```{r}
+getwd()
+setwd("C:/Users/johis/Documents/R/class_notes/W7")
+library(ggplot2)
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+phenodata= read.delim("C:/Users/johis/Documents/R/class_notes/HW4/pheno.txt", header= TRUE, sep = " ")
+names(phenodata)
+```
+Q1. Histogram with h1, h2, h3, h4. Log data transformation 
+```{r}
+pheno_log <- pivot_longer(
+  phenodata,
+  cols = c("h1","h2","h3","h4"),
+  names_to = "h",
+  values_to = "values")
+pheno_log
+
+#Histogram
+hist_var_h= ggplot(pheno_log, aes(h, values)) + 
+  geom_histogram(stat = "identity")+
+  labs(x = "Measurement" , y = "Value")+
+  ggtitle("Histogram of h")
+hist_var_h
+```
+Q2. Variable Y as the response variable, boxplot for each value of row and range. 
+
+```{r}
+pheno_1= pivot_longer(
+  phenodata, 
+  cols = c("range", "row"), 
+  names_to = "rangerow", 
+  values_to="value")
+pheno_1$value <- as.factor(pheno_1$value)
+pheno_1
+
+#Boxplot
+boxplot_y= ggplot(pheno_1,aes(value,Y))+
+  geom_boxplot(alpha=0.2)+
+  scale_x_discrete("value", seq(0,40,by=5))+
+  facet_wrap(~rangerow,scale="free_x", ncol=2)
+boxplot_y
+```
+Q3. Mean of Taxa, filter the TAXA with a mean greater than 12, and create a barplot with the error bar on top of it (use the value 1 as the standard error).
+```{r}
+pheno_taxa <- phenodata %>%
+  group_by(TAXA) %>%
+  summarise(mean=mean(Y, na.rm=T)) %>%
+  filter(mean > 12)
+pheno_taxa
+
+#Barplot
+barplot_taxa <- ggplot(pheno_taxa, aes(TAXA, mean))+
+  geom_bar(stat ="identity")+
+  geom_errorbar(aes(ymin = mean-1, ymax = mean+1), width=0.1, colour="blue", size=3)+
+  xlab("TAXA")+
+  ylab("mean")+
+  theme(axis.text.x=element_text(angle=90, size=8))
+barplot_taxa
+```
+
+Q4. 
