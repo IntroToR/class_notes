@@ -1,0 +1,5 @@
+**Week 8 (extra) homework:**
+
+**This homework should be submitted as ".tar.gz" to the folder W8 on the `class_notes` repository on the IntroToR GitHub by Friday (Last day of this class).**
+
+Create your own package, Build a Source Package (".tar.gz") with your own function to calculate the mean and another function to calculate the sum. You may use the sum function from R, as long as you use it inside your own function (say "my\_sum").
