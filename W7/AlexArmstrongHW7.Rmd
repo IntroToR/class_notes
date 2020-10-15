@@ -1,0 +1,89 @@
+---
+title: "AlexArmstrongHW7"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+install.packages("tidyverse")
+install.packages("tidyr")
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+```
+
+QUESTION 1:
+```{r}
+pheno <- read.table("https://raw.githubusercontent.com/IntroToR/class_notes/master/HW4/pheno.txt", head = T)
+print(pheno)
+
+# transform data
+transformed_pheno <- pivot_longer(pheno, c('h1','h2','h3','h4'), names_to = 'H_Group', values_to = 'Value')
+
+# plot the histogram
+ggplot(transformed_pheno, aes(x=H_Group, y=Value))+
+  geom_histogram(stat='identity',col='red')+
+  ggtitle("Histogram of H Groups")+
+  theme(plot.title = element_text(hjust = 0.5))+
+  labs(x="H Group",y="Value")
+```
+
+
+QUESTION 2:
+```{r}
+# transform data
+boxplot_pheno <- pivot_longer(pheno, c('range','row'), names_to = 'RangeRow', values_to = 'Value2')
+
+# plot the boxplot
+ggplot(boxplot_pheno, aes(x=as.factor(Value2),y=Y)) +
+  geom_boxplot(col='red') +
+  labs(x='values',y='Biomass Yield') +
+  facet_wrap(~RangeRow, nrow = 1, ncol = 2)
+```
+
+
+QUESTION 3:
+```{r}
+# group by TAXA and get data where mean >12
+mean_pheno <- pheno %>%
+  group_by(TAXA) %>%
+  summarise(mean=mean(Y)) %>%
+  filter(mean > 12)
+
+# plot the bar graph
+ggplot(mean_pheno, aes(x=TAXA,y=mean)) +
+  geom_bar(stat='identity',col='black',fill='red') +
+  labs(x="TAXA",y ="Mean") +
+  ggtitle("TAXA Averages")+
+  theme(plot.title = element_text(hjust = 0.5))+
+  geom_errorbar(aes(ymin = mean-1, ymax = mean+1))+
+  theme(axis.text.x = element_text(angle = 90))
+
+```
+
+
+
+```{r}
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

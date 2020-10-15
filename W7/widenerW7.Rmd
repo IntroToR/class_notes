@@ -1,0 +1,67 @@
+---
+title: "Sarah_Widener_W7.Rmd"
+author: "Sarah_Widener_W7.Rmd"
+date: "10/12/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+#Using the pheno.txt inside the HW4 folder, do the following:
+```{r}
+library(dplyr)
+library(tidyverse)
+HW7data <- read.table("https://raw.githubusercontent.com/IntroToR/class_notes/master/HW4/pheno.txt", header = T)
+head(HW7data)
+library(tidyr)
+HW7data2 <- pivot_longer(HW7data, cols = c("h1", "h2", "h3", "h4"), names_to = "h") 
+head(HW7data2)
+```
+
+#1) A histogram with h1, h2, h3, and h4. (Tip: you need to transform this data in a long format)
+```{r}
+library(ggplot2)
+ggplot(HW7data2, aes(x = h, y = value)) +
+  geom_histogram(stat = "identity") +
+  labs(x = "h_bin", y = "value")
+```
+
+#2) Using the variable "Y" as the response variable, create a boxplot for each value of row and range. Make one plot for row and another plot for range using a facet option.
+```{r}
+HW7data3 <- pivot_longer(HW7data, row:range,names_to = "type", values_to = "values")
+head(HW7data3)
+ggplot(HW7data2) +
+ aes(x = h, y = value) +
+ geom_boxplot(fill = "#35b779") +
+ theme_dark()
+```
+
+#3) Calculate the mean of each TAXA, filter the TAXA with a mean greater than 12, and create a barplot with the error bar on top of it (use the value 1 as the standard error).
+```{r}
+HW7data2%>%
+  group_by(TAXA)%>%
+  summarise_at(vars(Y), 
+  list(name=mean)) 
+mean2 <- HW7data2%>%
+  group_by(TAXA)%>%
+  summarise_at(vars(Y), 
+  list(name=mean)) %>%
+  filter(name>12)
+n<-13
+sd<- rep(1, each=n)
+mean3<- mean2%>% add_column(sd)
+
+
+finalplot <- ggplot(mean3)+
+  geom_bar(aes(x = TAXA, y = name), stat="identity", fill="red", alpha=0.5)+
+  geom_errorbar(aes(x=TAXA, ymin=name-sd, ymax=name+sd), colour="35b779",width=0.3, size=1)+
+  xlab("TAXA")+
+  ylab("Mean")+
+ ggtitle("Average Y value by TAXA")
+plot(finalplot)
+```
+
